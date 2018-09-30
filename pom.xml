@@ -7,7 +7,11 @@
   <groupId>com.web-notes</groupId>
   <artifactId>web-notes</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
+    <modules>
+        <module>webnotes-web</module>
+        <module>webnotes-core</module>
+    </modules>
+    <packaging>pom</packaging>
 
   <name>Web notes</name>
 
