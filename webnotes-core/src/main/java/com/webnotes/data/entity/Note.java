@@ -2,15 +2,16 @@ package com.webnotes.data.entity;
 
 import java.util.Date;
 
-public class Note {
+public final class Note {
 
-    private Integer id;
+    private static final int DEFAULT_ID = 0;
+
+    private Integer id = DEFAULT_ID;
     private String name;
     private String text;
     private Date createDate;
 
-    Note(Integer id, String name, String text, Date createDate) {
-        this.id = id;
+    public Note(String name, String text, Date createDate) {
         this.name = name;
         this.text = text;
         this.createDate = createDate;

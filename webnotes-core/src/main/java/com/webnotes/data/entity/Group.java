@@ -2,14 +2,16 @@ package com.webnotes.data.entity;
 
 import java.util.Date;
 
-public class Group {
+public final class Group {
 
-    private Integer id;
+    private static final int DEFAULT_ID = 0;
+
+
+    private Integer id = DEFAULT_ID;
     private String name;
     private Date createDate;
 
-    Group(Integer id, String name, Date createDate) {
-        this.id = id;
+    public Group(String name, Date createDate) {
         this.name = name;
         this.createDate = createDate;
     }

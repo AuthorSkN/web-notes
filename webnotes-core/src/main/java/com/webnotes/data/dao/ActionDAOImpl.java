@@ -1,4 +1,4 @@
 package com.webnotes.data.dao;
 
-public class ActionDAOImpl {
+public final class ActionDAOImpl {
 }

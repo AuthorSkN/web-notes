@@ -1,13 +1,15 @@
 package com.webnotes.data.entity;
 
-public class Action {
+public final class Action {
 
-    private Integer id;
+    private static final int DEFAULT_ID = 0;
+
+
+    private Integer id = DEFAULT_ID;
     private String text;
     private Boolean passed;
 
-    Action(Integer id, String text, Boolean passed) {
-        this.id = id;
+    public Action(String text, Boolean passed) {
         this.text = text;
         this.passed = passed;
     }

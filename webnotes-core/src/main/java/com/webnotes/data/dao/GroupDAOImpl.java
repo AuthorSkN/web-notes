@@ -1,4 +1,4 @@
 package com.webnotes.data.dao;
 
-public class GroupDAOImpl {
+public final class GroupDAOImpl {
 }
