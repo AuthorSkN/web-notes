@@ -1,12 +1,17 @@
 package com.webnotes.data.dao;
 
+import com.webnotes.data.entity.DataEntity;
+import com.webnotes.exceptions.WebNotesException;
 import com.webnotes.exceptions.WebNotesExceptionFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import java.lang.reflect.ParameterizedType;
 
-public abstract class DAOAbstract {
+import java.util.List;
+
+public abstract class DAOAbstract<E extends DataEntity> {
 
     private static final String SHUTDOWN_QUERY = "SHUTDOWN";
 
@@ -29,6 +34,62 @@ public abstract class DAOAbstract {
             exc.printStackTrace();
             throw WebNotesExceptionFactory.createConnectivityException();
         }
+    }
+
+
+    protected Session beginActivity() throws WebNotesException {
+        Session session;
+        try {
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+        } catch (HibernateException exc) {
+            exc.printStackTrace();
+            throw WebNotesExceptionFactory.createConnectivityException();
+        }
+        return session;
+    }
+
+
+    protected void commit(Session activity) throws WebNotesException {
+        try {
+            activity.getTransaction().commit();
+            activity.close();
+        } catch (HibernateException exc) {
+            exc.printStackTrace();
+            throw WebNotesExceptionFactory.createConnectivityException();
+        }
+    }
+
+
+    public void add(E item) throws WebNotesException {
+        Session activity = beginActivity();
+        activity.save(item);
+        commit(activity);
+    }
+
+    public void delete(E item) throws WebNotesException {
+        Session activity = beginActivity();
+        activity.delete(item);
+        commit(activity);
+    }
+
+    public E getById(Long id) throws WebNotesException{
+        Session activity = beginActivity();
+        E entity = (E) activity.load(getEntityClass(), id);
+        commit(activity);
+        return entity;
+    }
+
+    public List<E> getAll() throws WebNotesException{
+        Session activity = beginActivity();
+        String getAllQuery = "From " +  this.getEntityClass().getSimpleName();
+        List<E> entityList = activity.createQuery(getAllQuery).list();
+        commit(activity);
+        return entityList;
+    }
+
+    private Class getEntityClass() {
+        return (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
 }

@@ -2,7 +2,7 @@ package com.webnotes.data.entity;
 
 import java.util.Date;
 
-public final class Group {
+public final class Group implements DataEntity{
 
     private static final int DEFAULT_ID = 0;
 
@@ -14,6 +14,15 @@ public final class Group {
     public Group(String name, Date createDate) {
         this.name = name;
         this.createDate = createDate;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getCreateDate() {

@@ -1,6 +1,6 @@
 package com.webnotes.data.entity;
 
-public final class Action {
+public final class Action implements DataEntity{
 
     private static final int DEFAULT_ID = 0;
 
@@ -12,6 +12,15 @@ public final class Action {
     public Action(String text, Boolean passed) {
         this.text = text;
         this.passed = passed;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getText() {

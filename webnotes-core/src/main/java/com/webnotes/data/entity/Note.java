@@ -2,7 +2,7 @@ package com.webnotes.data.entity;
 
 import java.util.Date;
 
-public final class Note {
+public final class Note implements DataEntity {
 
     private static final int DEFAULT_ID = 0;
 
@@ -15,6 +15,15 @@ public final class Note {
         this.name = name;
         this.text = text;
         this.createDate = createDate;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
