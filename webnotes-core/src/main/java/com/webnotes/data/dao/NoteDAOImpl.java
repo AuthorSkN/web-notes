@@ -1,4 +1,6 @@
 package com.webnotes.data.dao;
 
-public final class NoteDAOImpl {
+import com.webnotes.data.entity.Note;
+
+public final class NoteDAOImpl extends DAOAbstract<Note>{
 }

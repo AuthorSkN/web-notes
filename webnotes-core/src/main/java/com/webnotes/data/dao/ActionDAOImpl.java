@@ -1,4 +1,6 @@
 package com.webnotes.data.dao;
 
-public final class ActionDAOImpl {
+import com.webnotes.data.entity.Action;
+
+public final class ActionDAOImpl extends DAOAbstract<Action>{
 }

@@ -1,4 +1,6 @@
 package com.webnotes.data.dao;
 
-public final class GroupDAOImpl {
+import com.webnotes.data.entity.Group;
+
+public final class GroupDAOImpl extends DAOAbstract<Group> {
 }
