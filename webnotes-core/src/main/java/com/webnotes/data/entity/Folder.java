@@ -1,17 +1,30 @@
 package com.webnotes.data.entity;
 
+import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-public final class Group implements DataEntity{
+@Entity
+@Table(name="folder")
+public final class Folder implements DataEntity{
 
     private static final int DEFAULT_ID = 0;
 
-
-    private Integer id = DEFAULT_ID;
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="id_folder")
+    private Integer id;
+    @Column(name="name")
     private String name;
+    @Column(name="create_date")
     private Date createDate;
 
-    public Group(String name, Date createDate) {
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="folder")
+    private Set<Note> notes = new HashSet<>();
+
+    public Folder(String name, Date createDate) {
+        this.id = DEFAULT_ID;
         this.name = name;
         this.createDate = createDate;
     }
@@ -39,5 +52,10 @@ public final class Group implements DataEntity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public void setNotes(Set<Note> notes) {
+        this.notes = notes;
     }
 }

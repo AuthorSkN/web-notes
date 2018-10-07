@@ -1,17 +1,31 @@
 package com.webnotes.data.entity;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name="action")
 public final class Action implements DataEntity{
 
     private static final int DEFAULT_ID = 0;
 
-
-    private Integer id = DEFAULT_ID;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id_action")
+    private Integer id;
+    @Column(name="text")
     private String text;
+    @Column(name="passed")
     private Boolean passed;
+
+    @ManyToOne(cascade= {CascadeType.REFRESH}, fetch=FetchType.EAGER)
+    @JoinColumn(name="id_note")
+    private Note note;
 
     public Action(String text, Boolean passed) {
         this.text = text;
         this.passed = passed;
+        this.id = DEFAULT_ID;
     }
 
     @Override
@@ -37,5 +51,13 @@ public final class Action implements DataEntity{
 
     public void setPassed(Boolean passed) {
         this.passed = passed;
+    }
+
+    public Note getNote() {
+        return note;
+    }
+
+    public void setNote(Note note) {
+        this.note = note;
     }
 }

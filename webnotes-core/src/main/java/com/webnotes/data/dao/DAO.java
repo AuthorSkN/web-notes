@@ -11,7 +11,7 @@ import java.lang.reflect.ParameterizedType;
 
 import java.util.List;
 
-public abstract class DAOAbstract<E extends DataEntity> {
+public abstract class DAO<E extends DataEntity> {
 
     private static final String SHUTDOWN_QUERY = "SHUTDOWN";
 

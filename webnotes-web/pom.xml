@@ -22,6 +22,11 @@
 
     <dependencies>
         <dependency>
+            <artifactId>webnotes-core</artifactId>
+            <groupId>com.web-notes</groupId>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
