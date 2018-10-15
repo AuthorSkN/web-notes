@@ -3,6 +3,7 @@ package com.webnotes.data;
 import com.webnotes.data.entity.*;
 import com.webnotes.data.dao.*;
 import org.junit.Test;
+import org.junit.Assert;
 
 import java.util.Date;
 
@@ -20,15 +21,7 @@ public class DAOTest {
     private static final Action ACTION_3 = new Action("Действие 3", true);
 
 
-    @Test
-    public void addAndDeleteFullStructure()
-    {
-        DAO.init();
-
-        FolderDAOImpl folderDataAccessor = new FolderDAOImpl();
-        NoteDAOImpl noteDataAccessor = new NoteDAOImpl();
-        ActionDAOImpl actionDataAccessor = new ActionDAOImpl();
-
+    private void setDataBase(DAO<Folder> folderDataAccessor, DAO<Note> noteDataAccessor, DAO<Action> actionDataAccessor) {
         folderDataAccessor.add(FOLDER_1);
         folderDataAccessor.add(FOLDER_2);
 
@@ -45,6 +38,17 @@ public class DAOTest {
         actionDataAccessor.add(ACTION_1);
         actionDataAccessor.add(ACTION_2);
         actionDataAccessor.add(ACTION_3);
+    }
+
+    @Test
+    public void addAndDeleteFullStructure() {
+        DAO.init();
+
+        FolderDAOImpl folderDataAccessor = new FolderDAOImpl();
+        NoteDAOImpl noteDataAccessor = new NoteDAOImpl();
+        ActionDAOImpl actionDataAccessor = new ActionDAOImpl();
+
+        setDataBase(folderDataAccessor, noteDataAccessor, actionDataAccessor);
 
         System.out.println("all elements are added");
 
@@ -57,12 +61,36 @@ public class DAOTest {
         folderDataAccessor.delete(FOLDER_1);
         folderDataAccessor.delete(FOLDER_2);
 
+        System.out.println("all elements are removed");
+
+        Assert.assertTrue(folderDataAccessor.getAll().isEmpty());
+        Assert.assertTrue(noteDataAccessor.getAll().isEmpty());
+        Assert.assertTrue(actionDataAccessor.getAll().isEmpty());
+
+        System.out.println("all tables are empty");
         DAO.closeDB();
     }
 
     @Test
-    public void cascadeDeleteForNoteFromFolder() {
+    public void cascadeDeleteNoteByFolder() {
+        DAO.init();
 
+        FolderDAOImpl folderDataAccessor = new FolderDAOImpl();
+        NoteDAOImpl noteDataAccessor = new NoteDAOImpl();
+        ActionDAOImpl actionDataAccessor = new ActionDAOImpl();
+
+        setDataBase(folderDataAccessor, noteDataAccessor, actionDataAccessor);
+
+        folderDataAccessor.delete(FOLDER_1);
+
+        Assert.assertFalse(folderDataAccessor.getAll().contains(FOLDER_1));
+        Assert.assertFalse(noteDataAccessor.getAll().contains(NOTE_1));
+        Assert.assertFalse(noteDataAccessor.getAll().contains(NOTE_2));
+        Assert.assertTrue(actionDataAccessor.getAll().isEmpty());
+
+        folderDataAccessor.delete(FOLDER_2);
+
+        DAO.closeDB();
     }
 
 }

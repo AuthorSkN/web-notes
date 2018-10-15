@@ -15,8 +15,10 @@ public abstract class DAO<E extends DataEntity> {
 
     private static final String SHUTDOWN_QUERY = "SHUTDOWN";
 
+    private final Class entityClass;
 
     protected static SessionFactory sessionFactory;
+
 
     public static void init() {
         sessionFactory = new Configuration().configure().buildSessionFactory();
@@ -34,6 +36,10 @@ public abstract class DAO<E extends DataEntity> {
             exc.printStackTrace();
             throw WebNotesExceptionFactory.createConnectivityException();
         }
+    }
+
+    protected DAO(){
+        this.entityClass = getEntityClass();
     }
 
 
@@ -82,10 +88,17 @@ public abstract class DAO<E extends DataEntity> {
 
     public List<E> getAll() throws WebNotesException{
         Session activity = beginActivity();
-        String getAllQuery = "From " +  this.getEntityClass().getSimpleName();
+        String getAllQuery = "From " +  this.entityClass.getSimpleName();
         List<E> entityList = activity.createQuery(getAllQuery).list();
         commit(activity);
         return entityList;
+    }
+
+    public void deleteAll() throws WebNotesException {
+        Session activity = beginActivity();
+        String getAllQuery = "Delete From " +  this.entityClass.getSimpleName();
+        activity.createQuery(getAllQuery).list();
+        commit(activity);
     }
 
     private Class getEntityClass() {
