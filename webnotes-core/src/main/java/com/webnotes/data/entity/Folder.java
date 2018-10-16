@@ -23,6 +23,8 @@ public final class Folder implements DataEntity{
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="folder")
     private Set<Note> notes = new HashSet<>();
 
+    public Folder() {}
+
     public Folder(String name, Date createDate) {
         this.id = DEFAULT_ID;
         this.name = name;

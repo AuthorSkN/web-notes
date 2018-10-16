@@ -94,10 +94,9 @@ public abstract class DAO<E extends DataEntity> {
         return entityList;
     }
 
-    public void deleteAll() throws WebNotesException {
+    public void deleteAll(List<E> entries) throws WebNotesException {
         Session activity = beginActivity();
-        String getAllQuery = "Delete From " +  this.entityClass.getSimpleName();
-        activity.createQuery(getAllQuery).list();
+        entries.forEach(activity::delete);
         commit(activity);
     }
 

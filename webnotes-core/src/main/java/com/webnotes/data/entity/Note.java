@@ -25,9 +25,11 @@ public final class Note implements DataEntity {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="note")
     private Set<Action> actions = new HashSet<>();
 
-    @ManyToOne(cascade= {CascadeType.REFRESH}, fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_folder")
     private Folder folder;
+
+    public Note() {}
 
     public Note(String name, String text, Date createDate) {
         this.id  = DEFAULT_ID;

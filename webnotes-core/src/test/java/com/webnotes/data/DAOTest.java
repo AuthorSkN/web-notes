@@ -2,6 +2,7 @@ package com.webnotes.data;
 
 import com.webnotes.data.entity.*;
 import com.webnotes.data.dao.*;
+import com.webnotes.exceptions.WebNotesException;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -21,7 +22,7 @@ public class DAOTest {
     private static final Action ACTION_3 = new Action("Действие 3", true);
 
 
-    private void setDataBase(DAO<Folder> folderDataAccessor, DAO<Note> noteDataAccessor, DAO<Action> actionDataAccessor) {
+    private void setTestData(DAO<Folder> folderDataAccessor, DAO<Note> noteDataAccessor, DAO<Action> actionDataAccessor) {
         folderDataAccessor.add(FOLDER_1);
         folderDataAccessor.add(FOLDER_2);
 
@@ -48,7 +49,8 @@ public class DAOTest {
         NoteDAOImpl noteDataAccessor = new NoteDAOImpl();
         ActionDAOImpl actionDataAccessor = new ActionDAOImpl();
 
-        setDataBase(folderDataAccessor, noteDataAccessor, actionDataAccessor);
+        clearTestDataIfExist(folderDataAccessor, noteDataAccessor, actionDataAccessor);
+        setTestData(folderDataAccessor, noteDataAccessor, actionDataAccessor);
 
         System.out.println("all elements are added");
 
@@ -68,6 +70,8 @@ public class DAOTest {
         Assert.assertTrue(actionDataAccessor.getAll().isEmpty());
 
         System.out.println("all tables are empty");
+
+        clearTestDataIfExist(folderDataAccessor, noteDataAccessor, actionDataAccessor);
         DAO.closeDB();
     }
 
@@ -79,7 +83,8 @@ public class DAOTest {
         NoteDAOImpl noteDataAccessor = new NoteDAOImpl();
         ActionDAOImpl actionDataAccessor = new ActionDAOImpl();
 
-        setDataBase(folderDataAccessor, noteDataAccessor, actionDataAccessor);
+        clearTestDataIfExist(folderDataAccessor, noteDataAccessor, actionDataAccessor);
+        setTestData(folderDataAccessor, noteDataAccessor, actionDataAccessor);
 
         folderDataAccessor.delete(FOLDER_1);
 
@@ -90,7 +95,15 @@ public class DAOTest {
 
         folderDataAccessor.delete(FOLDER_2);
 
+        clearTestDataIfExist(folderDataAccessor, noteDataAccessor, actionDataAccessor);
         DAO.closeDB();
+
+    }
+
+    private void clearTestDataIfExist(DAO<Folder> folderDataAccessor, DAO<Note> noteDataAccessor, DAO<Action> actionDataAccessor) {
+        actionDataAccessor.deleteAll(actionDataAccessor.getAll());
+        noteDataAccessor.deleteAll(noteDataAccessor.getAll());
+        folderDataAccessor.deleteAll(folderDataAccessor.getAll());
     }
 
 }

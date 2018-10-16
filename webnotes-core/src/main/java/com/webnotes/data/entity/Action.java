@@ -18,9 +18,11 @@ public final class Action implements DataEntity{
     @Column(name="passed")
     private Boolean passed;
 
-    @ManyToOne(cascade= {CascadeType.REFRESH}, fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_note")
     private Note note;
+
+    public Action() {}
 
     public Action(String text, Boolean passed) {
         this.text = text;
