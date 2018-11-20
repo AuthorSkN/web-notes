@@ -1,6 +1,6 @@
 package com.webnotes.exceptions;
 
-public class WebNotesExceptionFactory {
+public final class WebNotesExceptionFactory {
 
     private static final String CONNECTIVITY_EXCEPTION = "Database connectivity error.";
 
