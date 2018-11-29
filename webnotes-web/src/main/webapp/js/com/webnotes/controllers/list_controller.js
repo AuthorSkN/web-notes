@@ -8,8 +8,9 @@ class ListController {
         this.presenter = new ListPresenter(this.folderModel, this.notesModel);
     }
 
+
     loadFullList(){
-        alert("eppi");
+        this.presenter.drawAll();
     }
 
     loadNotes() {

@@ -21,6 +21,8 @@ section {
     margin-top: 20px;
 }
 
+
+
 .folders-list, .notes-list {
     cursor: pointer;
 }
@@ -29,9 +31,28 @@ section {
     color: #f5fff5;
 }
 
+.list-name, .list-act {
+    display: inline-block;
+    padding: 10px;
+}
+
+.list-group-item {
+    padding : 5px;
+}
+
+#main-block{
+    min-height:100%;
+    position: relative;
+}
+
 #main-section {
     padding: 40px;
 }
+
+#content-section {
+    margin-bottom: 80px;
+}
+
 
 
 
