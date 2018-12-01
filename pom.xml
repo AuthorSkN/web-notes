@@ -8,8 +8,8 @@
   <artifactId>web-notes</artifactId>
   <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>webnotes-web</module>
         <module>webnotes-core</module>
+        <module>webnotes-web</module>
     </modules>
     <packaging>pom</packaging>
 

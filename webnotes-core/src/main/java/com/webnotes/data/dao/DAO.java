@@ -1,5 +1,6 @@
 package com.webnotes.data.dao;
 
+import com.webnotes.data.dao.adapters.DBAdapter;
 import com.webnotes.data.entity.DataEntity;
 import com.webnotes.exceptions.WebNotesException;
 import com.webnotes.exceptions.WebNotesExceptionFactory;
@@ -11,20 +12,20 @@ import java.lang.reflect.ParameterizedType;
 
 import java.util.List;
 
-public abstract class DAO<E extends DataEntity> {
+public abstract class DAO<E extends DataEntity>{
 
     private static final String SHUTDOWN_QUERY = "SHUTDOWN";
 
     private final Class entityClass;
+    private final DBAdapter dbAdapter;
 
     protected static SessionFactory sessionFactory;
 
-
-    public static void init() {
+    public void init() {
         sessionFactory = new Configuration().configure().buildSessionFactory();
     }
 
-    public static void closeDB() {
+    public void closeDB() {
         try {
             Session session = sessionFactory.openSession();
             session.beginTransaction();
@@ -38,8 +39,9 @@ public abstract class DAO<E extends DataEntity> {
         }
     }
 
-    protected DAO(){
+    protected DAO(DBAdapter adapter){
         this.entityClass = getEntityClass();
+        this.dbAdapter = adapter;
     }
 
 
