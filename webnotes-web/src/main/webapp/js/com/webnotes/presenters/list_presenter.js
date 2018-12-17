@@ -2,47 +2,70 @@
 
 class ListPresenter {
 
-    constructor(foldersModel, notesModel, callbackCreateFunction, callbackRemoveFunction) {
-        this.foldersModel = foldersModel;
+    constructor(notesModel, callbackCreateFunction, callbackRemoveFunction) {
         this.notesModel = notesModel;
-        this.foldersContentSection = $("#content-section #folders-content");
+        this.groupsContentSection = $("#content-section #groups-content");
         this.notesContentSection = $("#content-section #notes-content");
-        this.selectedFolderIdx = null;
+        this.selectedGroupIdx = null;
         this.selectedNoteIdx = null;
-        this.isFolderSelected = false;
-        this.inFolder = null;
+        this.isGroupSelected = false;
+        this.inGroup = null;
         this.callbackCreateFunction = callbackCreateFunction;
         this.callbackRemoveFunction = callbackRemoveFunction;
+        this.noteIdxToKey = {};
+        this.groupIdxToKey = {};
 
         $("#createNewItem").click(() => {
-            this.createNewFolderOrNote();
+            this.createNewGroupOrNote();
         });
     }
 
-    drawFolderContent() {
+
+    drawGroupContent(groupKey) {
+        let group = this.notesModel.groups[groupKey];
+        this.isGroupSelected = true;
+        this.groupsContentSection.empty();
+        this.notesContentSection.empty();
+
+        this.drawNotes(group.name, group.notes);
+
+        $("#base-action-section").empty();
+        this.addBackButton(() => {
+            this.drawAllContent();
+        });
+        this.addCreateButton(() => {
+            $('#createModal').modal();
+        });
 
     }
 
     drawAllContent() {
-        let folders = this.foldersModel.folders;
-        this.foldersContentSection.empty();
-        this.foldersContentSection.append("<ul class='list-group folders-list'>");
-        let foldersSection = this.foldersContentSection.find(".folders-list");
-        foldersSection.append("<li class='list-group-item active'><h3>Folders</h3></li>");
-        for (let folder of folders) {
-            foldersSection.append("<li class='list-group-item list-group-item-action'>" +
-                "<span class='list-name '>" + folder.name + "</span>" +
+        this.isGroupSelected = false;
+        let groups = this.notesModel.groups;
+        this.groupsContentSection.empty();
+        this.groupsContentSection.append("<ul class='list-group groups-list'>");
+        let groupsSection = this.groupsContentSection.find(".groups-list");
+        groupsSection.append("<li class='list-group-item active'><h3>Groups</h3></li>");
+        let groupIdx = 1;
+        for (let groupKey in groups) {
+            this.groupIdxToKey[groupIdx++] = groupKey;
+            groupsSection.append("<li class='list-group-item list-group-item-action'>" +
+                "<span class='list-name '>" + this.notesModel.groups[groupKey].name + "</span>" +
                 "<span class='list-act '></span>" +
                 "</li>");
         }
-        let liNameFolderSet = $(".folders-list li");
-        liNameFolderSet.click(event => {
-            this.addFolderActions(event.currentTarget);
+        let liNameGroupSet = $(".groups-list li");
+        liNameGroupSet.click(event => {
+            this.addGroupActions(event.currentTarget);
         });
-        liNameFolderSet.dblclick(()=> alert("hello"));
+        liNameGroupSet.dblclick(event => {
+            let idx = groupsSection.find("li").index(event.currentTarget);
+            this.drawGroupContent(this.groupIdxToKey[idx]);
+        });
 
         this.drawNotes("Notes", this.notesModel.notes);
 
+        $("#base-action-section").empty();
         this.addCreateButton(() => {
             $('#createModal').modal();
         });
@@ -53,9 +76,11 @@ class ListPresenter {
         this.notesContentSection.append("<h3>"+headers+"</h3>");
         this.notesContentSection.append("<ul class='list-group list-group-flush notes-list'>");
         let notesSection = this.notesContentSection.find(".notes-list");
-        for (let note of notes) {
+        let noteIdx = 0;
+        for (let noteKey in notes) {
+            this.noteIdxToKey[noteIdx++] = noteKey;
             notesSection.append("<li class='list-group-item list-group-item-action '>" +
-                                          "<span class='list-name'>" + note.name + "</span>"+
+                                          "<span class='list-name'>" + this.notesModel.notes[noteKey].name + "</span>"+
                                           "<span class='list-act '></span></li>");
         }
         let liNameNoteSet = $(".notes-list li");
@@ -65,21 +90,21 @@ class ListPresenter {
         liNameNoteSet.dblclick(() => alert("hello2"));
     }
 
-    addFolderActions(element) {
-        let foldersList = $(".folders-list li");
+    addGroupActions(element) {
+        let foldersList = $(".groups-list li");
         let idxInList = foldersList.index(element);
-        if (idxInList === this.selectedFolderIdx) {
+        if (idxInList === this.selectedGroupIdx) {
             return;
         }
-        this.isFolderSelected = true;
+        this.isGroupSelected = true;
         this.removeActions();
-        this.selectedFolderIdx = idxInList;
+        this.selectedGroupIdx = idxInList;
         let acts = $(element).find(".list-act");
         acts.append("<button class='btn btn-outline-danger'>Remove</button>");
         $(acts).find(".btn-outline-danger").click(() => {
-            if (confirm("Do you want remove this folder?")) {
-                let folderId = this.selectedFolderIdx;
-                this.callbackRemoveFunction("folder", folderId, this.inFolder);
+            if (confirm("Do you want remove this group?")) {
+                let groupId = this.selectedGroupIdx;
+                this.callbackRemoveFunction("folder", groupId, this.inGroup);
             }
         });
     }
@@ -90,7 +115,7 @@ class ListPresenter {
         if (idxInList === this.selectedNoteIdx) {
              return;
         }
-        this.isFolderSelected = false;
+        this.isGroupSelected = false;
         this.removeActions();
         this.selectedNoteIdx = idxInList;
         let acts = $(element).find(".list-act");
@@ -98,7 +123,7 @@ class ListPresenter {
         $(acts).find(".btn-outline-danger").click(() => {
              if (confirm("Do you want remove this note?")) {
                 let noteId = this.selectedNoteIdx;
-                this.callbackRemoveFunction("note", noteId, this.inFolder);
+                this.callbackRemoveFunction("note", noteId, this.inGroup);
             }
         });
     }
@@ -108,18 +133,23 @@ class ListPresenter {
     }
 
     addCreateButton(eventFunction) {
-        $("#base-action-section").empty().append(" <button class='btn btn-outline-success'>Create</button>");
+        $("#base-action-section").append(" <button class='btn btn-outline-success'>Create</button>");
         $("#base-action-section .btn-outline-success").click(eventFunction);
     }
 
-    createNewFolderOrNote() {
+    addBackButton(eventFunction) {
+        $("#base-action-section").append("<button class='btn btn-outline-warning'><- Back</button>");
+        $("#base-action-section .btn-outline-warning").click(eventFunction);
+    }
+
+    createNewGroupOrNote() {
         let inputName = $('#inputName').val().trim();
         if (inputName === "") {
             alert("Name can't be empty.");
         } else {
             $('#createModal').modal('hide');
             let typeItem = $('#createModal input[name="options"]:checked').val();
-            this.callbackCreateFunction(typeItem, inputName, this.inFolder);
+            this.callbackCreateFunction(typeItem, inputName, this.inGroup);
         }
         
     }

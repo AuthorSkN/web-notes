@@ -13,7 +13,7 @@
         </section>
         <section class="col-10" id="content-section">
             <div id="folders-content">
-                <ul class="list-group folders-list">
+                <ul class="list-group groups-list">
                     <li class="list-group-item active"><h3>Folders</h3></li>
                     <li class="list-group-item list-group-item-action">Dapibus ac facilisis in</li>
                     <li class="list-group-item list-group-item-action">Morbi leo risus</li>

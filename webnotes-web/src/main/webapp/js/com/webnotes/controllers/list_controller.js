@@ -4,20 +4,19 @@ class ListController {
 
     constructor(){
         this.notesModel = new NotesModel();
-        this.foldersModel = new FoldersModel();
-        this.presenter = new ListPresenter(this.foldersModel, this.notesModel, 
-            (type, name, inFolder) => {
+        this.presenter = new ListPresenter(this.notesModel,
+            (type, name, inGroup) => {
                 if (type === "note") {
-                    this.createNewNote(inFolder, name);
+                    this.createNewNote(inGroup, name);
                 } else {
-                    this.createNewFolder(name);
+                    this.createNewGroup(name);
                 }
             },
-            (type, item, parentFolder) => {
+            (type, item, parentGroup) => {
                 if (type === "note"){
                     this.removeNote(item);
                 } else {
-                    this.removeFolder(parentFolder, item);
+                    this.removeGroup(parentGroup, item);
                 }
             });
     }
@@ -31,25 +30,25 @@ class ListController {
 
     }
 
-    createNewFolder(name) {
+    createNewGroup(name) {
         alert("getRequest?name="+name);
-        this.foldersModel.folders.push({'name':name});
+
         this.presenter.drawAllContent();
     }
 
     createNewNote(folder, name) {
-        alert("getRequest?name="+name+"&folder="+folder);
+        alert("getRequest?name="+name+"&group="+folder);
         this.notesModel.notes.push({'name':name});
         this.presenter.drawAllContent();
     }
 
 
-    removeFolder(folder) {
-        alert("getRequest?folder="+folder);
+    removeGroup(folder) {
+        alert("getRequest?group="+folder);
     }
 
     removeNote(folder, note) {
-        alert("getRequest?folder="+folder+"&note="+note);
+        alert("getRequest?group="+folder+"&note="+note);
     }
 
 }

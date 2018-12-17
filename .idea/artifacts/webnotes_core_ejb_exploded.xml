@@ -1,9 +1,12 @@
 <component name="ArtifactManager">
   <artifact type="exploded-ejb" name="webnotes-core:ejb exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/webnotes_core_ejb_exploded</output-path>
+    <output-path>$PROJECT_DIR$/webnotes-core/target/web-notes</output-path>
     <root id="root">
-      <element id="module-output" name="webnotes-core" />
       <element id="javaee-facet-resources" facet="webnotes-core/ejb/EJB" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/webnotes-core/target/web-notes/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="webnotes-core" />
     </root>
   </artifact>
 </component>

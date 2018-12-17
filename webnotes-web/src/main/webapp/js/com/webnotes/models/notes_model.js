@@ -7,17 +7,31 @@ class NotesModel {
         this.groups = {};
 
         for(let i = 0; i < 10; i++){
-            this.notes[i.toString()] = new Note(i, name, null);
-            this.group[i.toString()] = new Group(i, name);
+            this.notes[i.toString()] = new Note(i, "note "+i.toString(), null);
+            this.groups[i.toString()] = new Group(i, "group "+i.toString());
         }
 
-        for(let group in this.groups) {
-        	group.notes = [
-        		new Note("10", )
-        	];
+        for(let groupKey in this.groups) {
+        	this.groups[groupKey].add(new Note(1,"note 1"));
+            this.groups[groupKey].add(new Note(2, "note 1"));
+            this.groups[groupKey].add(new Note(3, "note 1"));
+            this.groups[groupKey].add(new Note(4, "note 1"));
+            this.groups[groupKey].add(new Note(5, "note 1"));
         }
     }
 
+
+    addNote(key, name, parent) {
+    	this.notes[key] = new Note(key, name, parent);
+	}
+
+	addGroup(key, name) {
+    	this.groups[key] = new Group(key, name);
+	}
+
+	getNodeFromGroup(groupKey, noteKey) {
+    	return this.groups[groupKey].notes[noteKey];
+	}
 
 }
 
@@ -35,6 +49,11 @@ class Group {
 	constructor(key, name) {
 		this.key = key;
 		this.name = name;
-		this.notes = [];
+		this.notes = {};
+	}
+
+	add(note) {
+		note.parent = this.key;
+		this.notes[note.key] = note;
 	}
 }

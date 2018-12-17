@@ -21,9 +21,7 @@ section {
     margin-top: 20px;
 }
 
-
-
-.folders-list, .notes-list {
+.groups-list, .notes-list {
     cursor: pointer;
 }
 
@@ -69,6 +67,15 @@ section {
 
 #notes-content {
     margin: 10px;
+}
+
+#base-action-section {
+    text-align: center;
+}
+
+#base-action-section button{
+    margin: 10px;
+    width: 80%;
 }
 
 
