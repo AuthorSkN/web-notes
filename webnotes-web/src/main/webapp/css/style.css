@@ -40,6 +40,20 @@ section {
     padding : 5px;
 }
 
+.list-act {
+    padding : 5px;
+    float: right;
+}
+
+.list-name {
+    float: left;
+}
+
+.list-act .btn{
+    margin: 0 10px;
+    padding: 3px 6px
+}
+
 #main-block{
     min-height:100%;
     position: relative;
@@ -51,6 +65,10 @@ section {
 
 #content-section {
     margin-bottom: 80px;
+}
+
+#notes-content {
+    margin: 10px;
 }
 
 

@@ -2,7 +2,6 @@ package com.webnotes.data;
 
 import com.webnotes.data.entity.*;
 import com.webnotes.data.dao.*;
-import com.webnotes.exceptions.WebNotesException;
 import org.junit.Test;
 import org.junit.Assert;
 

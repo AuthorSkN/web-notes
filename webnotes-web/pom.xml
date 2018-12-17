@@ -24,6 +24,7 @@
         <dependency>
             <artifactId>webnotes-core</artifactId>
             <groupId>com.web-notes</groupId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
