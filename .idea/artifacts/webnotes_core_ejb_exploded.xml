@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ejb" name="webnotes-core:ejb exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/webnotes_core_ejb_exploded</output-path>
+    <root id="root">
+      <element id="module-output" name="webnotes-core" />
+      <element id="javaee-facet-resources" facet="webnotes-core/ejb/EJB" />
+    </root>
+  </artifact>
+</component>
