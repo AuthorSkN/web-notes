@@ -24,7 +24,7 @@
     <section class="container" id="main-section">
         <div class="row">
             <section class="col-2" id="base-action-section">
-                <button class="btn btn-outline-success">Создать</button>
+               
             </section>
             <section class="col-10" id="content-section">
                 <div id="folders-content">
@@ -50,7 +50,47 @@
     </footer>
 
 </div>
-<!-main block->
+<!--main block-->
+
+<!--Modal create new element-->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create new ...</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Type:</span>
+            </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-outline-info active">
+                <input type="radio" name="options" id="option1" autocomplete="off" value="note" checked> Note
+              </label>
+              <label class="btn btn-outline-primary">
+                <input type="radio" name="options" id="option2" autocomplete="off" value="folder"> Folder
+              </label>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Name:</span>
+            </div>
+            <input type="text" id="inputName" class="form-control" placeholder="some name" aria-label="some name">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="createNewItem" class="btn btn-success">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal create new element-->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"

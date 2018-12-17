@@ -2,16 +2,28 @@
 
 class ListPresenter {
 
-    constructor(foldersModel, notesModel) {
+    constructor(foldersModel, notesModel, callbackCreateFunction, callbackRemoveFunction) {
         this.foldersModel = foldersModel;
         this.notesModel = notesModel;
         this.foldersContentSection = $("#content-section #folders-content");
         this.notesContentSection = $("#content-section #notes-content");
         this.selectedFolderIdx = null;
         this.selectedNoteIdx = null;
+        this.isFolderSelected = false;
+        this.inFolder = null;
+        this.callbackCreateFunction = callbackCreateFunction;
+        this.callbackRemoveFunction = callbackRemoveFunction;
+
+        $("#createNewItem").click(() => {
+            this.createNewFolderOrNote();
+        });
     }
 
-    drawAll() {
+    drawFolderContent() {
+
+    }
+
+    drawAllContent() {
         let folders = this.foldersModel.folders;
         this.foldersContentSection.empty();
         this.foldersContentSection.append("<ul class='list-group folders-list'>");
@@ -29,13 +41,16 @@ class ListPresenter {
         });
         liNameFolderSet.dblclick(()=> alert("hello"));
 
-        this.drawNotes();
+        this.drawNotes("Notes", this.notesModel.notes);
+
+        this.addCreateButton(() => {
+            $('#createModal').modal();
+        });
     }
 
-    drawNotes() {
-        let notes = this.notesModel.notes;
+    drawNotes(headers, notes) {
         this.notesContentSection.empty();
-        this.notesContentSection.append("<h3>Notes</h3>");
+        this.notesContentSection.append("<h3>"+headers+"</h3>");
         this.notesContentSection.append("<ul class='list-group list-group-flush notes-list'>");
         let notesSection = this.notesContentSection.find(".notes-list");
         for (let note of notes) {
@@ -56,13 +71,17 @@ class ListPresenter {
         if (idxInList === this.selectedFolderIdx) {
             return;
         }
-        if (this.selectedFolderIdx !== null) {
-            let pastSelectedEl =foldersList.eq(this.selectedFolderIdx);
-            pastSelectedEl.find(".list-act").empty();
-        }
+        this.isFolderSelected = true;
+        this.removeActions();
         this.selectedFolderIdx = idxInList;
         let acts = $(element).find(".list-act");
         acts.append("<button class='btn btn-outline-danger'>Remove</button>");
+        $(acts).find(".btn-outline-danger").click(() => {
+            if (confirm("Do you want remove this folder?")) {
+                let folderId = this.selectedFolderIdx;
+                this.callbackRemoveFunction("folder", folderId, this.inFolder);
+            }
+        });
     }
 
     addNoteActions(element) {
@@ -71,21 +90,38 @@ class ListPresenter {
         if (idxInList === this.selectedNoteIdx) {
              return;
         }
-        if (this.selectedNoteIdx !== null) {
-             let pastSelectedEl = notesList.eq(this.selectedNoteIdx);
-             pastSelectedEl.find(".list-act").empty();
-        }
+        this.isFolderSelected = false;
+        this.removeActions();
         this.selectedNoteIdx = idxInList;
         let acts = $(element).find(".list-act");
         acts.append("<button class='btn btn-outline-danger'>Remove</button>");
+        $(acts).find(".btn-outline-danger").click(() => {
+             if (confirm("Do you want remove this note?")) {
+                let noteId = this.selectedNoteIdx;
+                this.callbackRemoveFunction("note", noteId, this.inFolder);
+            }
+        });
     }
 
-    removeFolderActions() {
-        if(event.target.parentElement == this) {
-            return;
-        }
+    removeActions() {
+        $("#content-section .list-act").empty();
+    }
 
-        $(this).find(".list-act").empty();
+    addCreateButton(eventFunction) {
+        $("#base-action-section").empty().append(" <button class='btn btn-outline-success'>Create</button>");
+        $("#base-action-section .btn-outline-success").click(eventFunction);
+    }
+
+    createNewFolderOrNote() {
+        let inputName = $('#inputName').val().trim();
+        if (inputName === "") {
+            alert("Name can't be empty.");
+        } else {
+            $('#createModal').modal('hide');
+            let typeItem = $('#createModal input[name="options"]:checked').val();
+            this.callbackCreateFunction(typeItem, inputName, this.inFolder);
+        }
+        
     }
 
 }
