@@ -34,8 +34,12 @@ class ListPresenter {
             this.drawAllContent();
         });
         this.addCreateButton(() => {
-            $('#createModal').modal();
+            $('#createModal').modal();  //modal only note create
         });
+        this.addEditButton("Edit name", () => {
+            $('#createModal').modal();  //activate editing option
+        });
+
 
     }
 
@@ -135,6 +139,11 @@ class ListPresenter {
     addCreateButton(eventFunction) {
         $("#base-action-section").append(" <button class='btn btn-outline-success'>Create</button>");
         $("#base-action-section .btn-outline-success").click(eventFunction);
+    }
+
+    addEditButton(buttonName, eventFunction) {
+        $("#base-action-section").append(" <button class='btn btn-outline-primary'>"+buttonName+"</button>");
+        $("#base-action-section .btn-outline-primary").click(eventFunction);
     }
 
     addBackButton(eventFunction) {
