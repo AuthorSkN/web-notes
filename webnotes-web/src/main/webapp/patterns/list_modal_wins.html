@@ -1,56 +1,4 @@
-<html>
-<head>
-    <title>Notes</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
-    <script lang="javascript" src="../js/thirdparty/jquery-3.3.1.min.js"></script>
-
-    <script lang="javascript" src="../js/com/webnotes/controllers/list_controller.js"></script>
-    <script lang="javascript" src="../js/com/webnotes/models/notes_model.js"></script>
-    <script lang="javascript" src="../js/com/webnotes/presenters/list_presenter.js"></script>
-</head>
-<body>
-<div id="main-block">
-
-    <header>
-        <div class="web-site-border">
-            <h1>Web-notes</h1>
-        </div>
-    </header>
-
-    <section class="container" id="main-section">
-        <div class="row">
-            <section class="col-2" id="base-action-section">
-               
-            </section>
-            <section class="col-10" id="content-section">
-                <div id="groups-content">
-                </div>
-                <div id="notes-content">
-                </div>
-            </section>
-        </div>
-    </section>
-
-    <footer>
-
-        <div class="web-site-border">
-            <div style="float: left;">
-                Developers: Skladnev N. Gavrilov V.
-            </div>
-
-            <div style="float: right">
-                Samara University
-            </div>
-        </div>
-
-    </footer>
-
-</div>
-<!--main block-->
-!--Modal create new element-->
+<!--Modal create new element-->
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -106,7 +54,9 @@
                         <span class="input-group-text">Type:</span>
                     </div>
                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-info">Note</label>
+                        <label class="btn btn-outline-info active">
+                            <!--<input type="radio" name="options" id="option1" autocomplete="off" value="note" checked>--> Note
+                        </label>
                     </div>
                 </div>
                 <div class="input-group mb-3">
@@ -124,17 +74,3 @@
     </div>
 </div>
 <!--Modal create new note-->
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-<script src="../js/thirdparty/bootstrap/bootstrap.min.js"></script>
-
-<script>
-    let listController = new ListController();
-    listController.loadFullList();
-
-</script>
-</body>
-</html>

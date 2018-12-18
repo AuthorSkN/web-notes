@@ -18,6 +18,10 @@ class ListPresenter {
         $("#createNewItem").click(() => {
             this.createNewGroupOrNote();
         });
+
+        $("#createNewNote").click(() => {
+            this.createNewNoteInGroup();
+        });
     }
 
 
@@ -26,6 +30,7 @@ class ListPresenter {
         this.isGroupSelected = true;
         this.groupsContentSection.empty();
         this.notesContentSection.empty();
+        this.inGroup = group.key;
 
         this.drawNotes(group.name, group.notes);
 
@@ -34,7 +39,7 @@ class ListPresenter {
             this.drawAllContent();
         });
         this.addCreateButton(() => {
-            $('#createModal').modal();  //modal only note create
+            $('#createModalOnlyNote').modal();
         });
         this.addEditButton("Edit name", () => {
             $('#createModal').modal();  //activate editing option
@@ -45,6 +50,7 @@ class ListPresenter {
 
     drawAllContent() {
         this.isGroupSelected = false;
+        this.inGroup = null;
         let groups = this.notesModel.groups;
         this.groupsContentSection.empty();
         this.groupsContentSection.append("<ul class='list-group groups-list'>");
@@ -108,7 +114,7 @@ class ListPresenter {
         $(acts).find(".btn-outline-danger").click(() => {
             if (confirm("Do you want remove this group?")) {
                 let groupId = this.selectedGroupIdx;
-                this.callbackRemoveFunction("folder", groupId, this.inGroup);
+                this.callbackRemoveFunction("group", groupId, this.inGroup);
             }
         });
     }
@@ -161,6 +167,17 @@ class ListPresenter {
             this.callbackCreateFunction(typeItem, inputName, this.inGroup);
         }
         
+    }
+
+    createNewNoteInGroup() {
+        let inputName = $('#inputName').val().trim();
+        if (inputName === "") {
+            alert("Name can't be empty.");
+        } else {
+            $('#createModal').modal('hide');
+            let typeItem = "note";
+            this.callbackCreateFunction(typeItem, inputName, this.inGroup);
+        }
     }
 
 }
