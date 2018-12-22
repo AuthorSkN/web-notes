@@ -3,41 +3,16 @@ package com.webnotes.data.dao;
 import com.webnotes.data.dao.adapters.DBAdapter;
 import com.webnotes.data.entity.DataEntity;
 import com.webnotes.exceptions.WebNotesException;
-import com.webnotes.exceptions.WebNotesExceptionFactory;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+
 import java.lang.reflect.ParameterizedType;
 
 import java.util.List;
 
-public abstract class DAO<E extends DataEntity>{
-
-    private static final String SHUTDOWN_QUERY = "SHUTDOWN";
+public abstract class DAO<Entity extends DataEntity>{
 
     private final Class entityClass;
-    private final DBAdapter dbAdapter;
-
-    protected static SessionFactory sessionFactory;
-
-    public void init() {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
-    }
-
-    public void closeDB() {
-        try {
-            Session session = sessionFactory.openSession();
-            session.beginTransaction();
-            session.createSQLQuery(SHUTDOWN_QUERY);
-            session.getTransaction().commit();
-            session.close();
-            sessionFactory.close();
-        } catch (HibernateException exc) {
-            exc.printStackTrace();
-            throw WebNotesExceptionFactory.createConnectivityException();
-        }
-    }
+    protected final DBAdapter<Entity> dbAdapter;
 
     protected DAO(DBAdapter adapter){
         this.entityClass = getEntityClass();
@@ -45,58 +20,34 @@ public abstract class DAO<E extends DataEntity>{
     }
 
 
-    protected Session beginActivity() throws WebNotesException {
-        Session session;
-        try {
-            session = sessionFactory.openSession();
-            session.beginTransaction();
-        } catch (HibernateException exc) {
-            exc.printStackTrace();
-            throw WebNotesExceptionFactory.createConnectivityException();
-        }
-        return session;
+    public void add(Entity item) throws WebNotesException {
+        dbAdapter.beginActivity();
+        dbAdapter.save(item);
+        dbAdapter.commit();
     }
 
-
-    protected void commit(Session activity) throws WebNotesException {
-        try {
-            activity.getTransaction().commit();
-            activity.close();
-        } catch (HibernateException exc) {
-            exc.printStackTrace();
-            throw WebNotesExceptionFactory.createConnectivityException();
-        }
+    public void delete(Entity item) throws WebNotesException {
+        dbAdapter.beginActivity();
+        dbAdapter.delete(item);
+        dbAdapter.commit();
     }
 
-
-    public void add(E item) throws WebNotesException {
-        Session activity = beginActivity();
-        activity.save(item);
-        commit(activity);
+    public Entity getById(Long id) throws WebNotesException{
+        dbAdapter.beginActivity();
+        Entity object = dbAdapter.getById(getEntityClass(), id);
+        dbAdapter.commit();
+        return object;
     }
 
-    public void delete(E item) throws WebNotesException {
-        Session activity = beginActivity();
-        activity.delete(item);
-        commit(activity);
-    }
-
-    public E getById(Long id) throws WebNotesException{
-        Session activity = beginActivity();
-        E entity = (E) activity.load(getEntityClass(), id);
-        commit(activity);
-        return entity;
-    }
-
-    public List<E> getAll() throws WebNotesException{
+    public List<Entity> getAll() throws WebNotesException{
         Session activity = beginActivity();
         String getAllQuery = "From " +  this.entityClass.getSimpleName();
-        List<E> entityList = activity.createQuery(getAllQuery).list();
+        List<Entity> entityList = activity.createQuery(getAllQuery).list();
         commit(activity);
         return entityList;
     }
 
-    public void deleteAll(List<E> entries) throws WebNotesException {
+    public void deleteAll(List<Entity> entries) throws WebNotesException {
         Session activity = beginActivity();
         entries.forEach(activity::delete);
         commit(activity);

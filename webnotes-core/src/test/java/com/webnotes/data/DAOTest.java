@@ -5,6 +5,9 @@ import com.webnotes.data.dao.*;
 import org.junit.Test;
 import org.junit.Assert;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.Date;
 
 public class DAOTest {
@@ -22,7 +25,7 @@ public class DAOTest {
 
 
     private void setTestData(DAO<Folder> folderDataAccessor, DAO<Note> noteDataAccessor, DAO<Action> actionDataAccessor) {
-        folderDataAccessor.add(FOLDER_1);
+       /* folderDataAccessor.add(FOLDER_1);
         folderDataAccessor.add(FOLDER_2);
 
         NOTE_1.setFolder(FOLDER_1);
@@ -37,13 +40,13 @@ public class DAOTest {
         ACTION_3.setNote(NOTE_1);
         actionDataAccessor.add(ACTION_1);
         actionDataAccessor.add(ACTION_2);
-        actionDataAccessor.add(ACTION_3);
+        actionDataAccessor.add(ACTION_3);*/
     }
 
     @Test
     public void addAndDeleteFullStructure() {
-        DAO.init();
-
+        //DAO.init();
+/*
         FolderDAOImpl folderDataAccessor = new FolderDAOImpl();
         NoteDAOImpl noteDataAccessor = new NoteDAOImpl();
         ActionDAOImpl actionDataAccessor = new ActionDAOImpl();
@@ -70,15 +73,15 @@ public class DAOTest {
 
         System.out.println("all tables are empty");
 
-        clearTestDataIfExist(folderDataAccessor, noteDataAccessor, actionDataAccessor);
-        DAO.closeDB();
+        clearTestDataIfExist(folderDataAccessor, noteDataAccessor, actionDataAccessor);*/
+        //DAO.closeDB();
     }
 
     @Test
     public void cascadeDeleteNoteByFolder() {
-        DAO.init();
+        //DAO.init();
 
-        FolderDAOImpl folderDataAccessor = new FolderDAOImpl();
+        /*FolderDAOImpl folderDataAccessor = new FolderDAOImpl();
         NoteDAOImpl noteDataAccessor = new NoteDAOImpl();
         ActionDAOImpl actionDataAccessor = new ActionDAOImpl();
 
@@ -94,9 +97,21 @@ public class DAOTest {
 
         folderDataAccessor.delete(FOLDER_2);
 
-        clearTestDataIfExist(folderDataAccessor, noteDataAccessor, actionDataAccessor);
-        DAO.closeDB();
+        clearTestDataIfExist(folderDataAccessor, noteDataAccessor, actionDataAccessor);*/
+        //DAO.closeDB();
 
+    }
+
+    @Test
+    public void entityManagerTest() {
+        EntityManager em = Persistence.createEntityManagerFactory("entity_persistence").createEntityManager();
+        em.getTransaction().begin();
+        em.persist(NOTE_1);
+        em.getTransaction().commit();
+        em.getTransaction().begin();
+        em.remove(NOTE_1);
+        em.getTransaction().commit();
+        em.close();
     }
 
     private void clearTestDataIfExist(DAO<Folder> folderDataAccessor, DAO<Note> noteDataAccessor, DAO<Action> actionDataAccessor) {
@@ -104,5 +119,7 @@ public class DAOTest {
         noteDataAccessor.deleteAll(noteDataAccessor.getAll());
         folderDataAccessor.deleteAll(folderDataAccessor.getAll());
     }
+
+
 
 }

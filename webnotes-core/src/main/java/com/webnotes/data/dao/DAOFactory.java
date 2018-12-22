@@ -1,14 +1,18 @@
 package com.webnotes.data.dao;
 
+import com.webnotes.data.dao.adapters.DBAdapter;
 import com.webnotes.data.dao.adapters.EntityPersistenceAdapter;
 import com.webnotes.data.dao.adapters.HibernateAdapter;
+import org.hibernate.SessionFactory;
+
+import javax.persistence.EntityManagerFactory;
 
 public class DAOFactory {
 
     public static final boolean HIBERNATE_ADAPTER = true;
     public static final boolean ENTITY_PERSISTENCE_ADAPTER = false;
 
-    private boolean config;
+    private final boolean config;
 
     public DAOFactory(boolean config) {
         this.config = config;
@@ -37,4 +41,13 @@ public class DAOFactory {
             return new ActionDAOImpl(new EntityPersistenceAdapter());
         }
     }
+
+    public void closeDB() {
+        if (config) {
+            HibernateAdapter.closeDB();
+        } else {
+            EntityPersistenceAdapter.closeDB();
+        }
+    }
+
 }
