@@ -4,6 +4,9 @@
     <file type="ejb" url="file://$PROJECT_DIR$/webnotes-core" />
     <file type="web" url="file://$PROJECT_DIR$/webnotes-web" />
   </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

@@ -51,16 +51,6 @@
             <div class="modal-body">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Type:</span>
-                    </div>
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-outline-info active">
-                            <!--<input type="radio" name="options" id="option1" autocomplete="off" value="note" checked>--> Note
-                        </label>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
                         <span class="input-group-text">Name:</span>
                     </div>
                     <input type="text" id="inputNoteName" class="form-control" placeholder="some name" aria-label="some name">
@@ -69,6 +59,33 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" id="createNewNote" class="btn btn-success">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal create new note-->
+
+<!--Modal create new note-->
+<div class="modal fade" id="editGroupNameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="header-label-edit-note">Edit group name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Name:</span>
+                    </div>
+                    <input type="text" id="inputGroupName" class="form-control" placeholder="some name" aria-label="some name">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="editGroupName" class="btn btn-success">Create</button>
             </div>
         </div>
     </div>
