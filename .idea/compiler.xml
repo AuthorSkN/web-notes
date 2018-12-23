@@ -11,9 +11,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="core" target="1.8" />
-      <module name="web" target="1.8" />
-      <module name="webnotes-package" target="1.8" />
+      <module name="web-notes" target="1.8" />
+      <module name="webnotes-core" target="1.8" />
+      <module name="webnotes-web" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
