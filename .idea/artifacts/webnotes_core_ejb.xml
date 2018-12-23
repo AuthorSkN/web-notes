@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="ejb-jar" name="webnotes-core:ejb">
+    <output-path>$PROJECT_DIR$/webnotes-core/target</output-path>
+    <root id="archive" name="web-notes.jar">
+      <element id="artifact" artifact-name="webnotes-core:ejb exploded" />
+    </root>
+  </artifact>
+</component>

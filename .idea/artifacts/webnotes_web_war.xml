@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="webnotes-web:war">
+    <output-path>$PROJECT_DIR$/webnotes-web/target</output-path>
+    <root id="archive" name="webnotes-web.war">
+      <element id="artifact" artifact-name="webnotes-web:war exploded" />
+    </root>
+  </artifact>
+</component>
