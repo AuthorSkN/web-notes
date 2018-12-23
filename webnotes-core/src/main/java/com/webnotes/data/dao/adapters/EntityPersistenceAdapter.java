@@ -5,6 +5,9 @@ import com.webnotes.data.entity.DataEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EntityPersistenceAdapter<Entity extends DataEntity>  implements DBAdapter<Entity> {
 
@@ -22,7 +25,7 @@ public class EntityPersistenceAdapter<Entity extends DataEntity>  implements DBA
         entiryManagerFactory.close();
     }
 
-    private EntityManager currentActivity;
+    private EntityManager currenteEntityManager;
 
     public EntityPersistenceAdapter() {
         init();
@@ -30,29 +33,42 @@ public class EntityPersistenceAdapter<Entity extends DataEntity>  implements DBA
 
     @Override
     public void beginActivity() {
-        currentActivity = entiryManagerFactory.createEntityManager();
-        currentActivity.getTransaction().begin();
+        currenteEntityManager = entiryManagerFactory.createEntityManager();
+        currenteEntityManager.getTransaction().begin();
     }
 
     @Override
     public void commit() {
-        currentActivity.getTransaction().commit();
-        currentActivity.close();
+        currenteEntityManager.getTransaction().commit();
+        currenteEntityManager.close();
     }
 
     @Override
     public void save(Entity object) {
-        currentActivity.persist(object);
+        currenteEntityManager.persist(object);
     }
 
     @Override
     public void delete(Entity object) {
-        currentActivity.remove(object);
+        currenteEntityManager.remove(object);
+
     }
 
     @Override
     public Entity getById(Class entityClass, Long id) {
-        return (Entity) currentActivity.find(entityClass, id);
+        return (Entity) currenteEntityManager.find(entityClass, id);
     }
+
+    @Override
+    public List<Entity> executeQuery(String query) {
+        return (List<Entity>)currenteEntityManager.createQuery(query).getResultList();
+    }
+
+    @Override
+    public List<Entity> executeSelectQuery(String whereQuery, Class entityClass, String alias) {
+        String query = "SELECT "+alias+" FROM "+entityClass.getSimpleName()+" AS "+alias;
+        return (List<Entity>)currenteEntityManager.createQuery(query, entityClass).getResultList();
+    }
+
 
 }

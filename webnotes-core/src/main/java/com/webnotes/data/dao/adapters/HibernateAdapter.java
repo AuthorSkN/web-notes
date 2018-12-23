@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.List;
+
 public class HibernateAdapter<Entity extends DataEntity> implements DBAdapter<Entity>{
 
     private static final String SHUTDOWN_QUERY = "SHUTDOWN";
@@ -64,6 +66,16 @@ public class HibernateAdapter<Entity extends DataEntity> implements DBAdapter<En
     @Override
     public Entity getById(Class entityClass, Long id) {
         return (Entity) currentSession.load(entityClass, id);
+    }
+
+    @Override
+    public List<Entity> executeQuery(String query) {
+        return null;
+    }
+
+    @Override
+    public List<Entity> executeSelectQuery(String whereQuery, Class entityClass, String alias) {
+        return null;
     }
 
     @Override

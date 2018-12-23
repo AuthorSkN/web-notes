@@ -42,10 +42,8 @@ class ListPresenter {
             $('#createModalOnlyNote').modal();
         });
         this.addEditButton("Edit name", () => {
-            $('#createModal').modal();  //activate editing option
+            $('#editGroupNameModal').modal(); 
         });
-
-
     }
 
     drawAllContent() {

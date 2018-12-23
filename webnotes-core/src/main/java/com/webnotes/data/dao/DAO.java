@@ -40,17 +40,16 @@ public abstract class DAO<Entity extends DataEntity>{
     }
 
     public List<Entity> getAll() throws WebNotesException{
-        Session activity = beginActivity();
-        String getAllQuery = "From " +  this.entityClass.getSimpleName();
-        List<Entity> entityList = activity.createQuery(getAllQuery).list();
-        commit(activity);
+        dbAdapter.beginActivity();
+        List<Entity> entityList = dbAdapter.executeSelectQuery("", getEntityClass(), "a");
+        dbAdapter.commit();
         return entityList;
     }
 
     public void deleteAll(List<Entity> entries) throws WebNotesException {
-        Session activity = beginActivity();
-        entries.forEach(activity::delete);
-        commit(activity);
+        dbAdapter.beginActivity();
+        entries.forEach(dbAdapter::delete);
+        dbAdapter.commit();
     }
 
     private Class getEntityClass() {

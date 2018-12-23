@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/web-notes.iml" filepath="$PROJECT_DIR$/web-notes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webnotes-core/webnotes-core.iml" filepath="$PROJECT_DIR$/webnotes-core/webnotes-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webnotes-web/webnotes-web.iml" filepath="$PROJECT_DIR$/webnotes-web/webnotes-web.iml" />
+    </modules>
+  </component>
+</project>

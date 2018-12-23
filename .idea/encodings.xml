@@ -4,8 +4,5 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webnotes-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webnotes-web" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webnotes-web/src/main/webapp/index.jsp" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webnotes-web/src/main/webapp/patterns/footer.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/webnotes-web/src/main/webapp/patterns/header.html" charset="UTF-8" />
   </component>
 </project>

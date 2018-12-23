@@ -2,6 +2,8 @@ package com.webnotes.data.dao.adapters;
 
 import com.webnotes.data.entity.DataEntity;
 
+import java.util.List;
+
 public interface DBAdapter<Entity extends DataEntity> {
 
 
@@ -15,5 +17,8 @@ public interface DBAdapter<Entity extends DataEntity> {
 
     Entity getById(Class entityClass, Long id);
 
+    List<Entity> executeQuery(String query);
+
+    List<Entity> executeSelectQuery(String whereQuery, Class entityClass, String alias);
 
 }
