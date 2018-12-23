@@ -23,6 +23,10 @@ class ListController {
 
 
     loadFullList(){
+        $.get("hello",
+            {name: "max"},
+            (data) => alert(JSON.parse(data).notes[0].name)
+        );
         this.presenter.drawAllContent();
     }
 

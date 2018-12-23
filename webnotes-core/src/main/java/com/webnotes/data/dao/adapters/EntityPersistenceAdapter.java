@@ -16,7 +16,7 @@ public class EntityPersistenceAdapter<Entity extends DataEntity>  implements DBA
     private static EntityManagerFactory entiryManagerFactory;
 
     private static void init() {
-        if (entiryManagerFactory != null) {
+        if (entiryManagerFactory == null) {
             entiryManagerFactory = Persistence.createEntityManagerFactory(CONFIG_NAME);
         }
     }
@@ -50,8 +50,8 @@ public class EntityPersistenceAdapter<Entity extends DataEntity>  implements DBA
 
     @Override
     public void delete(Entity object) {
-        currenteEntityManager.remove(object);
-
+        Entity obj = currenteEntityManager.merge(object);
+        currenteEntityManager.remove(obj);
     }
 
     @Override

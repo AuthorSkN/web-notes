@@ -18,7 +18,7 @@ public class HibernateAdapter<Entity extends DataEntity> implements DBAdapter<En
     private Session currentSession;
 
     private static void init() {
-        if (sessionFactory != null) {
+        if (sessionFactory == null) {
             sessionFactory = new Configuration().configure().buildSessionFactory();
         }
     }
