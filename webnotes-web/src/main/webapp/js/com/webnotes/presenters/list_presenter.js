@@ -111,7 +111,7 @@ class ListPresenter {
         acts.append("<button class='btn btn-outline-danger'>Remove</button>");
         $(acts).find(".btn-outline-danger").click(() => {
             if (confirm("Do you want remove this group?")) {
-                let groupId = this.selectedGroupIdx;
+                let groupId = this.groupIdxToKey[this.selectedGroupIdx];
                 this.callbackRemoveFunction("group", groupId, this.inGroup);
             }
         });
@@ -130,7 +130,7 @@ class ListPresenter {
         acts.append("<button class='btn btn-outline-danger'>Remove</button>");
         $(acts).find(".btn-outline-danger").click(() => {
              if (confirm("Do you want remove this note?")) {
-                let noteId = this.selectedNoteIdx;
+                let noteId = this.noteIdxToKey[this.selectedNoteIdx];
                 this.callbackRemoveFunction("note", noteId, this.inGroup);
             }
         });
@@ -168,11 +168,11 @@ class ListPresenter {
     }
 
     createNewNoteInGroup() {
-        let inputName = $('#inputName').val().trim();
+        let inputName = $('#inputNoteName').val().trim();
         if (inputName === "") {
             alert("Name can't be empty.");
         } else {
-            $('#createModal').modal('hide');
+            $('#createModalOnlyNote').modal('hide');
             let typeItem = "note";
             this.callbackCreateFunction(typeItem, inputName, this.inGroup);
         }

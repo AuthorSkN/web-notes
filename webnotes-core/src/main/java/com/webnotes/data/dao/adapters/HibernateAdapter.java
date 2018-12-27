@@ -64,7 +64,7 @@ public class HibernateAdapter<Entity extends DataEntity> implements DBAdapter<En
     }
 
     @Override
-    public Entity getById(Class entityClass, Long id) {
+    public Entity getById(Class entityClass, Integer id) {
         return (Entity) currentSession.load(entityClass, id);
     }
 

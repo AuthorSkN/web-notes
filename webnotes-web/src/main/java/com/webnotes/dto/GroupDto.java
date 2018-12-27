@@ -14,4 +14,5 @@ public class GroupDto implements Serializable {
         this.name = name;
         this.notes = notes;
     }
+
 }

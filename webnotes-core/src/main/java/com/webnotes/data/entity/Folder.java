@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="folder")
-public final class Folder implements DataEntity{
+public class Folder implements DataEntity{
 
     private static final int DEFAULT_ID = 0;
 
@@ -59,5 +59,9 @@ public final class Folder implements DataEntity{
 
     public void setNotes(Set<Note> notes) {
         this.notes = notes;
+    }
+
+    public Set<Note> getNotes() {
+        return notes;
     }
 }

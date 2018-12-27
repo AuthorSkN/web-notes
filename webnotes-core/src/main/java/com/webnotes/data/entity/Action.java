@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="action")
-public final class Action implements DataEntity{
+public class Action implements DataEntity{
 
     private static final int DEFAULT_ID = 0;
 

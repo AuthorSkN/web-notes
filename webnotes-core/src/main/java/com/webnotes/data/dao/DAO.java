@@ -32,7 +32,7 @@ public abstract class DAO<Entity extends DataEntity>{
         dbAdapter.commit();
     }
 
-    public Entity getById(Long id) throws WebNotesException{
+    public Entity getById(int id) throws WebNotesException{
         dbAdapter.beginActivity();
         Entity object = dbAdapter.getById(getEntityClass(), id);
         dbAdapter.commit();

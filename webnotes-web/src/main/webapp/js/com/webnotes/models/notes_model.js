@@ -2,31 +2,40 @@
 
 class NotesModel {
 
-    constructor(){
+
+    constructor() {
         this.notes = {};
         this.groups = {};
+	}
 
-        for(let i = 0; i < 10; i++){
-            this.notes[i.toString()] = new Note(i, "note "+i.toString(), null);
-            this.groups[i.toString()] = new Group(i, "group "+i.toString());
+	setData(dto) {
+        for (let note of dto.notes) {
+            this.notes[note.key] = new Note(note.key, note.name, null);
         }
-
-        for(let groupKey in this.groups) {
-        	this.groups[groupKey].add(new Note(1,"note 1"));
-            this.groups[groupKey].add(new Note(2, "note 1"));
-            this.groups[groupKey].add(new Note(3, "note 1"));
-            this.groups[groupKey].add(new Note(4, "note 1"));
-            this.groups[groupKey].add(new Note(5, "note 1"));
+        for (let group of dto.groups) {
+            this.groups[group.key] = new Group(group.key, group.name);
+            for (let note of group.notes) {
+                this.groups[group.key].add(note.key, note.name, group.key);
+            }
         }
     }
 
 
-    addNote(key, name, parent) {
-    	this.notes[key] = new Note(key, name, parent);
+    addNote(noteDto) {
+        let parent = (noteDto.parentKey === -1)? null : noteDto.parentKey;
+    	this.notes[noteDto.key] = new Note(noteDto.key, noteDto.name, parent);
 	}
 
-	addGroup(key, name) {
-    	this.groups[key] = new Group(key, name);
+	removeNote(noteKey) {
+        delete this.notes[noteKey];
+    }
+
+    removeGroup(groupKey) {
+        delete this.groups[groupKey];
+    }
+
+	addGroup(groupDto) {
+    	this.groups[groupDto.key] = new Group(groupDto.key, groupDto.name);
 	}
 
 	getNodeFromGroup(groupKey, noteKey) {

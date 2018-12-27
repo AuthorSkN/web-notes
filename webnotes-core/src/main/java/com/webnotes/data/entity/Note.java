@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="note")
-public final class Note implements DataEntity {
+public class Note implements DataEntity {
 
     private static final int DEFAULT_ID = 0;
 

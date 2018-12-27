@@ -15,7 +15,7 @@ public interface DBAdapter<Entity extends DataEntity> {
 
     void delete(Entity object);
 
-    Entity getById(Class entityClass, Long id);
+    Entity getById(Class entityClass, Integer id);
 
     List<Entity> executeQuery(String query);
 
