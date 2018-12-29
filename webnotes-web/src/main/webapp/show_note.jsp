@@ -40,8 +40,7 @@
 </section>
 
 <script>
-    let listController = new ListController();
-    listController.loadFullList();
+
 </script>
 
 <%@ include file="./patterns/footer.html" %>

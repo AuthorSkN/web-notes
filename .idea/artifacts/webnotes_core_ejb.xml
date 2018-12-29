@@ -1,6 +1,12 @@
 <component name="ArtifactManager">
   <artifact type="ejb-jar" name="webnotes-core:ejb">
     <output-path>$PROJECT_DIR$/webnotes-core/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>webnotes-core</module>
+        <packaging>ejb</packaging>
+      </options>
+    </properties>
     <root id="archive" name="web-notes.jar">
       <element id="artifact" artifact-name="webnotes-core:ejb exploded" />
     </root>
