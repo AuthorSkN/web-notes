@@ -88,7 +88,7 @@ class ListPresenter {
         for (let noteKey in notes) {
             this.noteIdxToKey[noteIdx++] = noteKey;
             notesSection.append("<li class='list-group-item list-group-item-action '>" +
-                                          "<span class='list-name'>" + this.notesModel.notes[noteKey].name + "</span>"+
+                                          "<span class='list-name'>" + notes[noteKey].name + "</span>"+
                                           "<span class='list-act '></span></li>");
         }
         let liNameNoteSet = $(".notes-list li");

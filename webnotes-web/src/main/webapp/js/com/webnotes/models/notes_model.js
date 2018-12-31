@@ -15,15 +15,18 @@ class NotesModel {
         for (let group of dto.groups) {
             this.groups[group.key] = new Group(group.key, group.name);
             for (let note of group.notes) {
-                this.groups[group.key].add(note.key, note.name, group.key);
+                this.groups[group.key].add(note);
             }
         }
     }
 
 
     addNote(noteDto) {
-        let parent = (noteDto.parentKey === -1)? null : noteDto.parentKey;
-    	this.notes[noteDto.key] = new Note(noteDto.key, noteDto.name, parent);
+        if (parent === -1 ) {
+            this.notes[noteDto.key] = new Note(noteDto.key, noteDto.name, null);
+        } else {
+        	this.groups[noteDto.parentKey].add(new Note(noteDto.key, noteDto.name, noteDto.parentKey));
+		}
 	}
 
 	removeNote(noteKey) {
@@ -65,4 +68,5 @@ class Group {
 		note.parent = this.key;
 		this.notes[note.key] = note;
 	}
+
 }

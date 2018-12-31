@@ -46,6 +46,7 @@ public class EntityPersistenceAdapter<Entity extends DataEntity>  implements DBA
     @Override
     public void save(Entity object) {
         currenteEntityManager.persist(object);
+        currenteEntityManager.flush();
     }
 
     @Override
@@ -56,10 +57,7 @@ public class EntityPersistenceAdapter<Entity extends DataEntity>  implements DBA
 
     @Override
     public Entity getById(Class entityClass, Integer id) {
-        //return (Entity) currenteEntityManager.find(entityClass, id);
-        Query query = currenteEntityManager.createQuery("SELECT a FROM "+entityClass.getSimpleName() + "AS a where a.id:k");
-        query.setParameter("k", id);
-        return (Entity)query.getResultList().get(0);
+        return (Entity) currenteEntityManager.find(entityClass, id);
     }
 
     @Override

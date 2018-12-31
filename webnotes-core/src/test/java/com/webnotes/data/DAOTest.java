@@ -104,12 +104,9 @@ public class DAOTest {
 
     @Test
     public void entityManagerTest() {
-        EntityManager em = Persistence.createEntityManagerFactory("entity_persistence").createEntityManager();
+        EntityManager em = Persistence.createEntityManagerFactory("test-unit").createEntityManager();
         em.getTransaction().begin();
-        em.persist(NOTE_1);
-        em.getTransaction().commit();
-        em.getTransaction().begin();
-        em.remove(NOTE_1);
+        Folder folder = (Folder) em.find(Folder.class, 48);
         em.getTransaction().commit();
         em.close();
     }
