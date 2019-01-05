@@ -7,34 +7,36 @@
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <script lang="javascript" src="../js/thirdparty/jquery-3.3.1.min.js"></script>
 
-    <script lang="javascript" src="../js/com/webnotes/controllers/list_controller.js"></script>
-    <script lang="javascript" src="../js/com/webnotes/models/notes_model.js"></script>
-    <script lang="javascript" src="../js/com/webnotes/presenters/list_presenter.js"></script>
+    <script lang="javascript" src="../js/com/webnotes/controllers/note_controller.js"></script>
+    <script lang="javascript" src="../js/com/webnotes/models/note_content_model.js"></script>
+    <script lang="javascript" src="../js/com/webnotes/presenters/note_presenter.js"></script>
 </head>
 <body>
 <div id="main-block">
 
     <header>
-        <div class="web-site-border">
-            <h1>Web-notes</h1>
+        <div class=row>
+            <div class="web-site-border col-9">
+                <h1>Web-notes</h1>
+            </div>
+            <div class="col-3">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">Search</button>
+                  </div>
+                  <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                </div>
+            </div>
         </div>
     </header>
 
     <section class="container" id="main-section">
-        <div class="btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-secondary active">
-                <input type="checkbox" checked autocomplete="off"> Checked
-            </label>
-        </div>
         <div class="row">
             <section class="col-2" id="base-action-section">
 
             </section>
             <section class="col-10" id="content-section">
-                <div id="groups-content">
-                </div>
-                <div id="notes-content">
-                </div>
+                
             </section>
         </div>
     </section>
@@ -53,5 +55,40 @@
 
     </footer>
 </div>
+
+<!--Modal add action-->
+<div class="modal fade" id="addActionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="header-add-action">Add new action</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Action text:</span>
+                    </div>
+                    <input type="text" id="inputActionText" class="form-control" placeholder="some action" aria-label="some action">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="addNewAction" class="btn btn-success">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal  add action-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="../js/thirdparty/bootstrap/bootstrap.min.js"></script>
+
+<script>
+    let noteController = new NoteController();
+    noteController.loadNoteContent();
+</script>
 </body>
 </html>

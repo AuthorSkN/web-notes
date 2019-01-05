@@ -52,6 +52,50 @@ section {
     padding: 3px 6px
 }
 
+.act-circle {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.act-not-complete { 
+    background: mistyrose;
+}
+
+.act-not-complete:hover {
+    border: 1px solid red;
+}
+
+.act-complete {
+    background: #78cf6f;
+}
+
+.act-complete:hover {
+    border: 2px solid #68f7cc;
+}
+
+.act-edit-complete {
+    border: 1px solid #ffb833; 
+    background: #cccccc;
+}
+
+.note-text {
+    padding: 20px 20px;
+    font-size: 18pt;
+}
+
+.list-note-action {
+    display: inline-block;
+    font-size: 16pt;
+    padding: 6px;
+}
+
+.edit-input {
+    margin: 20px 0;
+}
+
 #main-block{
     min-height:100%;
     position: relative;
@@ -77,6 +121,8 @@ section {
     margin: 10px;
     width: 80%;
 }
+
+
 
 
 
