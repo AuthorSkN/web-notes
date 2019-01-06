@@ -27,7 +27,7 @@ public class Note implements DataEntity {
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_folder")
-    private Folder folder;
+    private Group group;
 
     public Note() {}
 
@@ -75,11 +75,11 @@ public class Note implements DataEntity {
         return actions;
     }
 
-    public Folder getGroup() {
-        return folder;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setGroup(Folder group) {
-        this.folder = group;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

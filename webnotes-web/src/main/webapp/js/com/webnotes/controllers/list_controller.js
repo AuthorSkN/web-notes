@@ -7,8 +7,6 @@ const OPERATION_REMOVE_NOTE = 3;
 const OPERATION_REMOVE_GROUP = 4;
 const OPERATION_EDIT_GROUP = 5;
 
-
-
 class ListController {
 
     constructor(){
@@ -38,12 +36,16 @@ class ListController {
     }
 
 
-    loadFullList(){
+    loadFullList(key){
         $.get("list-controller",
             {oper: OPERATION_LOAD},
             (data) => {
                 this.notesModel.setData(JSON.parse(data));
-                this.presenter.drawAllContent();
+                if (typeof key === "undefined") {
+                    this.presenter.drawAllContent();
+                } else {
+                    this.presenter.drawGroupContent(key);
+                }
             }
         );
     }

@@ -1,4 +1,4 @@
-create table folder(
+create table group(
   id_folder serial primary key,
   name varchar(100) not null,
   create_date date not null
@@ -9,7 +9,7 @@ create table note(
   name varchar(100) not null,
   text varchar(1000),
   create_date date not null,
-  id_folder int references folder(id_folder) ON DELETE CASCADE
+  id_folder int references group(id_folder) ON DELETE CASCADE
 );
 
 create table action(

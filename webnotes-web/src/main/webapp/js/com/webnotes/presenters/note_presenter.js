@@ -3,10 +3,13 @@
 
 class NotePresenter {
 
-	constructor(noteContentModel) {
+	constructor(noteContentModel, callbackBackFunction, callbackCheckActionFunction, callbackChangeNoteFunction) {
 		this.noteModel = noteContentModel;
 		this.actionSection = $("#base-action-section");
 		this.noteContentSection = $("#content-section");
+		this.callbackBackFunction = callbackBackFunction;
+		this.callbackCheckActionFunction = callbackCheckActionFunction;
+		this.callbackChangeNoteFunction = callbackChangeNoteFunction;
 		this.selectedActionIdx = -1;
 		this.actionIdxToKey = {};
 
@@ -41,7 +44,7 @@ class NotePresenter {
 		$(".act-circle").click(event => this.checkNoteAction(event.target));
 
 		this.actionSection.empty();
-		this.addBackButton(() => alert("hello back"));
+		this.addBackButton(() => this.callbackBackFunction(this.noteModel.parentKey));
 		this.addEditButton("Edit", () => this.drawEditableNote());
 	}
 
@@ -74,7 +77,7 @@ class NotePresenter {
 		this.addAddActionButton("Add action", () => {
             $('#addActionModal').modal(); 
         });
-		this.addSaveButton(() => alert("hello save"));
+		this.addSaveButton(() => this.saveChangeNoteData());
 	}
 
 	checkNoteAction(element) {
@@ -89,6 +92,7 @@ class NotePresenter {
 			$(element).removeClass("act-complete");
 			$(element).addClass("act-not-complete");
 		}
+        this.callbackCheckActionFunction(actionKey, actionStatus);
 	}
 
 	removeActions() {
@@ -162,5 +166,18 @@ class NotePresenter {
         this.actionSection.append("<button class='btn btn-outline-danger'>Cancel</button>");
         $("#base-action-section .btn-outline-danger").click(eventFunction);
     }
+
+
+    saveChangeNoteData() {
+		let newName = $("#note-name-input").val();
+        if (newName === "") {
+            alert("Name can't be empty.");
+        } else {
+        	let newText = $("#note-text-input").val();
+        	let actions = "";
+        	$(".list-note-action").each((idx, element) => actions += element.innerText+";");
+            this.callbackChangeNoteFunction(newName, newText, actions);
+        }
+	}
 
 }

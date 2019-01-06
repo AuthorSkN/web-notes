@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ include file="./patterns/header.html" %>
@@ -22,8 +23,13 @@
 <%@ include file="./patterns/list_modal_wins.html" %>
 
 <script>
+    let key = "<c:out value="${param['key']}"/>";
     let listController = new ListController();
-    listController.loadFullList();
+    if ((key === "") || (Number(key) === -1)) {
+        listController.loadFullList();
+    } else {
+        listController.loadFullList(Number(key));
+    }
 </script>
 
 <%@ include file="./patterns/footer.html" %>

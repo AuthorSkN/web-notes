@@ -1,11 +1,7 @@
 package com.webnotes.data.dao;
 
-import com.webnotes.data.dao.adapters.DBAdapter;
 import com.webnotes.data.dao.adapters.EntityPersistenceAdapter;
 import com.webnotes.data.dao.adapters.HibernateAdapter;
-import org.hibernate.SessionFactory;
-
-import javax.persistence.EntityManagerFactory;
 
 public class DAOFactory {
 
@@ -18,11 +14,11 @@ public class DAOFactory {
         this.config = config;
     }
 
-    public FolderDAOImpl createFolderDAO() {
+    public GroupDAOImpl createGroupDAO() {
         if (config) {
-            return new FolderDAOImpl(new HibernateAdapter());
+            return new GroupDAOImpl(new HibernateAdapter());
         } else {
-            return new FolderDAOImpl(new EntityPersistenceAdapter());
+            return new GroupDAOImpl(new EntityPersistenceAdapter());
         }
     }
 

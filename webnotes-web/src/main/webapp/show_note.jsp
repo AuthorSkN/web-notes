@@ -16,6 +16,7 @@
         </section>
     </div>
 </section>
+<%@ include file="./patterns/note_show_wins.html" %>
 
 <script>
     let noteKey = Number(<c:out value="${param['key']}"/>);

@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="folder")
-public class Folder implements DataEntity{
+public class Group implements DataEntity{
 
     private static final int DEFAULT_ID = 0;
 
@@ -20,12 +20,12 @@ public class Folder implements DataEntity{
     @Column(name="create_date")
     private Date createDate;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="folder")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="group")
     private Set<Note> notes = new HashSet<>();
 
-    public Folder() {}
+    public Group() {}
 
-    public Folder(String name, Date createDate) {
+    public Group(String name, Date createDate) {
         this.id = DEFAULT_ID;
         this.name = name;
         this.createDate = createDate;
