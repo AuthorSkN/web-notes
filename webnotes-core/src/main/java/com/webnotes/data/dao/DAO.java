@@ -52,6 +52,14 @@ public abstract class DAO<Entity extends DataEntity>{
         dbAdapter.commit();
     }
 
+    public Entity update(Entity item) throws WebNotesException {
+        Entity updateItem;
+        dbAdapter.beginActivity();
+        updateItem = dbAdapter.update(item);
+        dbAdapter.commit();
+        return updateItem;
+    }
+
     private Class getEntityClass() {
         return (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }

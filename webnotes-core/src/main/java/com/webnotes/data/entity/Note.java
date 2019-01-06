@@ -75,11 +75,11 @@ public class Note implements DataEntity {
         return actions;
     }
 
-    public Folder getFolder() {
+    public Folder getGroup() {
         return folder;
     }
 
-    public void setFolder(Folder folder) {
-        this.folder = folder;
+    public void setGroup(Folder group) {
+        this.folder = group;
     }
 }

@@ -19,14 +19,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-@WebServlet(name="ServletM", urlPatterns = {"/list-controller"})
-public class MainController extends HttpServlet
+@WebServlet(name="ServletList", urlPatterns = {"/list-controller"})
+public class ListController extends HttpServlet
 {
     private static final int OPERATION_LOAD = 0;
     private static final int OPERATION_ADD_NOTE = 1;
     private static final int OPERATION_ADD_GROUP = 2;
     private static final int OPERATION_REMOVE_NOTE = 3;
     private static final int OPERATION_REMOVE_GROUP = 4;
+    private static final int OPERATION_EDIT_GROUP = 5;
 
     private static final String EMPTY_TEXT = "";
     private static final long NOT_GROUP = -1;
@@ -61,6 +62,11 @@ public class MainController extends HttpServlet
                 int groupKey = Integer.parseInt(request.getParameter("key"));
                 responseJSON = removeGroupOperation(groupKey);
             }break;
+            case OPERATION_EDIT_GROUP: {
+                int groupKey = Integer.parseInt(request.getParameter("key"));
+                String newGroupName = request.getParameter("name");
+                responseJSON = editGroupName(groupKey, newGroupName);
+            }break;
         }
 
         PrintWriter out = response.getWriter();
@@ -83,7 +89,7 @@ public class MainController extends HttpServlet
         List<GroupDto> groupDtoList = new ArrayList<>();
 
         for(Note note: notesData) {
-            Folder group = note.getFolder();
+            Folder group = note.getGroup();
             if (group == null) {
                 noteHeaderDtoList.add(new NoteHeaderDto(note.getId(), note.getName(), NOT_GROUP));
             }
@@ -116,7 +122,10 @@ public class MainController extends HttpServlet
             int groupKey = Integer.parseInt(groupKeyString);
             DAO<Folder> folderDataAccessor = dataFactory.createFolderDAO();
             Folder parentGroup = folderDataAccessor.getById(groupKey);
-            note.setFolder(parentGroup);
+            note.setGroup(parentGroup);
+            parentGroup.getNotes().add(note);
+            DAO<Folder> groupDataAccessor = dataFactory.createFolderDAO();
+            groupDataAccessor.update(parentGroup);
         }
         noteDataAccessor.add(note);
 
@@ -126,7 +135,7 @@ public class MainController extends HttpServlet
 
         return gson.toJson(new NoteHeaderDto(note.getId(),
                 note.getName(),
-                (note.getFolder() == null)? NOT_GROUP : note.getFolder().getId()));
+                (note.getGroup() == null)? NOT_GROUP : note.getGroup().getId()));
     }
 
     private String addGroupOperation(String name) {
@@ -146,20 +155,42 @@ public class MainController extends HttpServlet
         DAO<Note> noteDataAccessor = dataFactory.createNoteDAO();
 
         Note note = noteDataAccessor.getById(noteKey);
+        Folder parentGroup = note.getGroup();
         noteDataAccessor.delete(note);
+        if (parentGroup != null) {
+            parentGroup.getNotes().remove(note);
+            DAO<Folder> groupDataAccessor = dataFactory.createFolderDAO();
+            groupDataAccessor.update(parentGroup);
+        }
 
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
 
-        return gson.toJson(noteKey);
+        return gson.toJson(new NoteHeaderDto(noteKey, note.getName(),
+                (parentGroup == null)? NOT_GROUP : parentGroup.getId()));
     }
 
     private String removeGroupOperation(int groupKey) {
-        DAO<Folder> folderDataAccessor = dataFactory.createFolderDAO();
+        DAO<Folder> groupDataAccessor = dataFactory.createFolderDAO();
 
-        Folder group = folderDataAccessor.getById(groupKey);
-        folderDataAccessor.delete(group);
+        Folder group = groupDataAccessor.getById(groupKey);
+        groupDataAccessor.delete(group);
+
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+
+        return gson.toJson(groupKey);
+    }
+
+    private String editGroupName(int groupKey, String newGroupName) {
+
+        DAO<Folder> groupDataAccessor = dataFactory.createFolderDAO();
+
+        Folder group = groupDataAccessor.getById(groupKey);
+        group.setName(newGroupName);
+        groupDataAccessor.update(group);
 
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()

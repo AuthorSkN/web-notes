@@ -29,8 +29,14 @@ class NotesModel {
 		}
 	}
 
-	removeNote(noteKey) {
-        delete this.notes[noteKey];
+	removeNote(noteDto) {
+    	if (noteDto.parentKey === -1) {
+            delete this.notes[noteDto.key];
+		} else {
+    		let group = this.groups[noteDto.parentKey];
+    		delete group.notes[noteDto.key];
+		}
+
     }
 
     removeGroup(groupKey) {
@@ -39,6 +45,10 @@ class NotesModel {
 
 	addGroup(groupDto) {
     	this.groups[groupDto.key] = new Group(groupDto.key, groupDto.name);
+	}
+
+	changeGroupName(groupKey, newName) {
+    	this.groups[groupKey].name = newName;
 	}
 
 	getNodeFromGroup(groupKey, noteKey) {

@@ -88,5 +88,10 @@ public class HibernateAdapter<Entity extends DataEntity> implements DBAdapter<En
         currentSession.delete(object);
     }
 
+    @Override
+    public Entity update(Entity object) {
+        return null;
+    }
+
 
 }

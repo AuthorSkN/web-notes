@@ -2,7 +2,8 @@
 
 class ListPresenter {
 
-    constructor(notesModel, callbackCreateFunction, callbackRemoveFunction) {
+    constructor(notesModel, callbackCreateFunction,
+                callbackRemoveFunction, callbackEditGroupNameFunction, callbackShowContentFunction) {
         this.notesModel = notesModel;
         this.groupsContentSection = $("#content-section #groups-content");
         this.notesContentSection = $("#content-section #notes-content");
@@ -12,6 +13,8 @@ class ListPresenter {
         this.inGroup = null;
         this.callbackCreateFunction = callbackCreateFunction;
         this.callbackRemoveFunction = callbackRemoveFunction;
+        this.callbackEditGtoupNameFunction = callbackEditGroupNameFunction;
+        this.callbackShowContentFunction = callbackShowContentFunction;
         this.noteIdxToKey = {};
         this.groupIdxToKey = {};
 
@@ -21,6 +24,10 @@ class ListPresenter {
 
         $("#createNewNote").click(() => {
             this.createNewNoteInGroup();
+        });
+
+        $("#editGroupName").click(() => {
+            this.editGroupName();
         });
     }
 
@@ -95,7 +102,15 @@ class ListPresenter {
         liNameNoteSet.click(event => {
             this.addNoteActions(event.currentTarget);
         });
-        liNameNoteSet.dblclick(() => alert("hello2"));
+        liNameNoteSet.dblclick(event => {
+            this.showNoteContent(event.currentTarget);
+        });
+    }
+
+    showNoteContent(element) {
+        let notesList = $(".notes-list li");
+        let noteKey = this.noteIdxToKey[notesList.index(element)];
+        this.callbackShowContentFunction(noteKey);
     }
 
     addGroupActions(element) {
@@ -131,6 +146,7 @@ class ListPresenter {
         $(acts).find(".btn-outline-danger").click(() => {
              if (confirm("Do you want remove this note?")) {
                 let noteId = this.noteIdxToKey[this.selectedNoteIdx];
+                this.selectedNoteIdx = -1;
                 this.callbackRemoveFunction("note", noteId, this.inGroup);
             }
         });
@@ -175,6 +191,16 @@ class ListPresenter {
             $('#createModalOnlyNote').modal('hide');
             let typeItem = "note";
             this.callbackCreateFunction(typeItem, inputName, this.inGroup);
+        }
+    }
+
+    editGroupName() {
+        let inputName = $('#inputGroupName').val().trim();
+        if (inputName === "") {
+            alert("Name can't be empty.");
+        } else {
+            $('#editGroupNameModal').modal('hide');
+            this.callbackEditGtoupNameFunction(this.inGroup, inputName);
         }
     }
 

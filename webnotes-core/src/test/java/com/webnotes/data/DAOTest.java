@@ -28,9 +28,9 @@ public class DAOTest {
        /* folderDataAccessor.add(FOLDER_1);
         folderDataAccessor.add(FOLDER_2);
 
-        NOTE_1.setFolder(FOLDER_1);
-        NOTE_2.setFolder(FOLDER_1);
-        NOTE_3.setFolder(FOLDER_2);
+        NOTE_1.setGroup(FOLDER_1);
+        NOTE_2.setGroup(FOLDER_1);
+        NOTE_3.setGroup(FOLDER_2);
         noteDataAccessor.add(NOTE_1);
         noteDataAccessor.add(NOTE_2);
         noteDataAccessor.add(NOTE_3);

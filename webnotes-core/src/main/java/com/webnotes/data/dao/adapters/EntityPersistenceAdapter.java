@@ -56,6 +56,11 @@ public class EntityPersistenceAdapter<Entity extends DataEntity>  implements DBA
     }
 
     @Override
+    public Entity update( Entity object) {
+        return currenteEntityManager.merge(object);
+    }
+
+    @Override
     public Entity getById(Class entityClass, Integer id) {
         return (Entity) currenteEntityManager.find(entityClass, id);
     }

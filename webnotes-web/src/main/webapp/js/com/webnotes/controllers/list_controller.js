@@ -5,6 +5,7 @@ const OPERATION_ADD_NOTE = 1;
 const OPERATION_ADD_GROUP = 2;
 const OPERATION_REMOVE_NOTE = 3;
 const OPERATION_REMOVE_GROUP = 4;
+const OPERATION_EDIT_GROUP = 5;
 
 
 
@@ -26,7 +27,14 @@ class ListController {
                 } else {
                     this.removeGroup(itemKey);
                 }
+            },
+            (groupKey, newGroupName) => {
+                this.editGroupName(groupKey, newGroupName);
+            },
+            (noteKey) => {
+                this.toNotePage(noteKey);
             });
+
     }
 
 
@@ -38,10 +46,6 @@ class ListController {
                 this.presenter.drawAllContent();
             }
         );
-    }
-
-    loadNotes() {
-
     }
 
     createNewGroup(name) {
@@ -84,6 +88,20 @@ class ListController {
                 this.presenter.drawAllContent();
             }
         );
+    }
+
+    editGroupName(groupKey, newGroupName) {
+        $.get("list-controller",
+            {oper: OPERATION_EDIT_GROUP, key: groupKey, name: newGroupName },
+            () => {
+                this.notesModel.changeGroupName(groupKey, newGroupName);
+                this.presenter.drawGroupContent(groupKey);
+            }
+        );
+    }
+
+    toNotePage(noteKey) {
+        location.href='show_note.jsp?key='+noteKey;
     }
 
 }
