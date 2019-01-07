@@ -28,7 +28,7 @@ public class NoteController extends HttpServlet {
     private static final int NOT_GROUP = -1;
 
 
-    private DAOFactory dataFactory = new DAOFactory(DAOFactory.ENTITY_PERSISTENCE_ADAPTER);
+    private DAOFactory dataFactory = new DAOFactory(DAOFactory.HIBERNATE_ADAPTER);
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

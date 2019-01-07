@@ -22,7 +22,7 @@ public class Note implements DataEntity {
     @Column(name="create_date")
     private Date createDate;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="note")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="note")
     private Set<Action> actions = new HashSet<>();
 
     @ManyToOne(fetch=FetchType.EAGER)

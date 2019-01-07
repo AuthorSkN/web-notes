@@ -59,6 +59,11 @@
           <artifactId>jstl</artifactId>
           <version>1.2</version>
       </dependency>
+      <dependency>
+          <groupId>org.jboss.logging</groupId>
+          <artifactId>jboss-logging</artifactId>
+          <version>3.3.0.Final</version>
+      </dependency>
   </dependencies>
 
   <build>

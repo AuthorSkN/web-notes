@@ -20,7 +20,7 @@ public class Group implements DataEntity{
     @Column(name="create_date")
     private Date createDate;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="group")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="group")
     private Set<Note> notes = new HashSet<>();
 
     public Group() {}

@@ -15,7 +15,7 @@ import java.util.Set;
 @Stateless(name = "GlobalSearchBean")
 public class GlobalSearchBean {
 
-    private DAOFactory dataFactory = new DAOFactory(DAOFactory.ENTITY_PERSISTENCE_ADAPTER);
+    private DAOFactory dataFactory = new DAOFactory(DAOFactory.HIBERNATE_ADAPTER);
 
     public GlobalSearchBean() {
     }

@@ -75,7 +75,13 @@ public class HibernateAdapter<Entity extends DataEntity> implements DBAdapter<En
 
     @Override
     public List<Entity> executeSelectQuery(String whereQuery, Class entityClass, String alias) {
-        return null;
+        String query;
+        if (whereQuery.isEmpty()) {
+            query = "FROM " + entityClass.getSimpleName();
+        } else {
+            query = "FROM " + entityClass.getSimpleName() + " WHERE " + whereQuery;
+        }
+        return (List<Entity>)currentSession.createQuery(query, entityClass).getResultList();
     }
 
     @Override
@@ -90,7 +96,8 @@ public class HibernateAdapter<Entity extends DataEntity> implements DBAdapter<En
 
     @Override
     public Entity update(Entity object) {
-        return null;
+        currentSession.update(object);
+        return object;
     }
 
 
