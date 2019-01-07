@@ -28,6 +28,7 @@ public class GlobalSearchController extends HttpServlet {
     @EJB
     private GlobalSearchBean globalSearchBean;
 
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String responseJSON;
