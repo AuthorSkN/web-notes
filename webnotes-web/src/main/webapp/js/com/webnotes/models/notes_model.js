@@ -22,7 +22,7 @@ class NotesModel {
 
 
     addNote(noteDto) {
-        if (parent === -1 ) {
+        if (noteDto.parentKey === -1 ) {
             this.notes[noteDto.key] = new Note(noteDto.key, noteDto.name, null);
         } else {
         	this.groups[noteDto.parentKey].add(new Note(noteDto.key, noteDto.name, noteDto.parentKey));

@@ -8,7 +8,12 @@ class SearchController {
 	}
 
 	searchNotes(searchString) {
-		this.searchPresenter.drawFoundNotes();
+		$.get("search-controller",
+			{sstr: searchString},
+            (data) => {
+		        this.notesModel.setData(JSON.parse(data));
+                this.searchPresenter.drawFoundNotes();
+            });
 	}
 
 }

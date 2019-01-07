@@ -60,8 +60,9 @@ public abstract class DAO<Entity extends DataEntity>{
         return updateItem;
     }
 
-    private Class getEntityClass() {
+    protected Class getEntityClass() {
         return (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
+
 
 }

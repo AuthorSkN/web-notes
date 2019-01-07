@@ -72,7 +72,12 @@ public class EntityPersistenceAdapter<Entity extends DataEntity>  implements DBA
 
     @Override
     public List<Entity> executeSelectQuery(String whereQuery, Class entityClass, String alias) {
-        String query = "SELECT "+alias+" FROM "+entityClass.getSimpleName()+" AS "+alias;
+        String query;
+        if (whereQuery == "") {
+            query = "SELECT " + alias + " FROM " + entityClass.getSimpleName() + " AS " + alias;
+        } else {
+            query = "SELECT " + alias + " FROM " + entityClass.getSimpleName() + " AS " + alias + " WHERE " + whereQuery;
+        }
         return (List<Entity>)currenteEntityManager.createQuery(query, entityClass).getResultList();
     }
 

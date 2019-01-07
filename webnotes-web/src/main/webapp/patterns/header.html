@@ -10,18 +10,25 @@
 <body>
 <div id="main-block">
 
-<header>
+    <header>
         <div class=row>
             <div class="web-site-border col-9">
                 <h1>Web-notes</h1>
             </div>
             <div class="col-3">
                 <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">Search</button>
-                  </div>
-                 <input type="text" class="form-control" placeholder="" aria-label="input search" aria-describedby="input search">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button" id="button-global-search">Search</button>
+                    </div>
+                    <input type="text" class="form-control" placeholder="" aria-label="input search"
+                           aria-describedby="input search" id ="input-search-string">
                 </div>
             </div>
         </div>
     </header>
+
+    <script lang="javascript">
+        $("#button-global-search").click(() => {
+            location.href='global_search.jsp?sstr='+$("#input-search-string").val().trim();
+        });
+    </script>

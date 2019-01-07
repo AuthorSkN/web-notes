@@ -4,8 +4,8 @@
          version="3.0">
     <enterprise-beans>
         <session>
-            <ejb-name>TestEJBImpl</ejb-name>
-            <ejb-class>com.webnotes.ejb.TestEJBImpl</ejb-class>
+            <ejb-name>GlobalSearchBean</ejb-name>
+            <ejb-class>com.webnotes.ejb.GlobalSearchBean</ejb-class>
             <session-type>Stateless</session-type>
         </session>
     </enterprise-beans>
