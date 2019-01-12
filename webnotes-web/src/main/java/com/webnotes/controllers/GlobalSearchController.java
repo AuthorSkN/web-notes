@@ -1,22 +1,14 @@
 package com.webnotes.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.webnotes.data.entity.Note;
 import com.webnotes.dto.GroupDto;
-import com.webnotes.dto.ListDto;
-import com.webnotes.dto.NoteHeaderDto;
-import com.webnotes.ejb.GlobalSearchBean;
+import com.webnotes.business.GlobalSearchBean;
 
-import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Set;
 
 @WebServlet(name = "ServletSearch", urlPatterns = {"/search-controller"})
 public class GlobalSearchController extends HttpServlet {
@@ -25,13 +17,13 @@ public class GlobalSearchController extends HttpServlet {
     private static final int NOT_GROUP = -1;
     private static final GroupDto[] EMPTY_GROUPS_DTO = new GroupDto[0];
 
-    @EJB
+
     private GlobalSearchBean globalSearchBean;
 
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String responseJSON;
+        /*String responseJSON;
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
@@ -52,7 +44,7 @@ public class GlobalSearchController extends HttpServlet {
 
 
         PrintWriter out = response.getWriter();
-        out.print(responseJSON);
+        out.print(responseJSON);*/
     }
 
     @Override

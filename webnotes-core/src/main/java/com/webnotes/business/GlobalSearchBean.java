@@ -1,4 +1,4 @@
-package com.webnotes.ejb;
+package com.webnotes.business;
 
 import com.webnotes.data.dao.DAO;
 import com.webnotes.data.dao.DAOFactory;
@@ -11,8 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Local
-@Stateless(name = "GlobalSearchBean")
 public class GlobalSearchBean {
 
     private DAOFactory dataFactory = new DAOFactory(DAOFactory.HIBERNATE_ADAPTER);
