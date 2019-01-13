@@ -1,25 +1,18 @@
 package com.webnotes.controllers;
 
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.webnotes.data.dao.DAO;
 import com.webnotes.data.dao.DAOFactory;
 import com.webnotes.data.entity.Action;
 import com.webnotes.data.entity.Note;
 import com.webnotes.dto.*;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-@WebServlet(name = "ServletNote", urlPatterns = {"/note-controller"})
-public class NoteController extends HttpServlet {
+@RestController
+public class NoteController {
 
     private static final int OPERATION_LOAD = 0;
     private static final int OPERATION_CHECK_ACTION = 1;
@@ -30,44 +23,10 @@ public class NoteController extends HttpServlet {
 
     private DAOFactory dataFactory = new DAOFactory(DAOFactory.HIBERNATE_ADAPTER);
 
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int operation = Integer.parseInt(request.getParameter("oper"));
-        int noteKey = Integer.parseInt(request.getParameter("key"));
-        String responseJSON = "";
-
-        switch (operation) {
-            case OPERATION_LOAD: {
-                responseJSON = loadOperation(noteKey);
-            }
-            break;
-            case OPERATION_CHECK_ACTION: {
-                int actionKey = Integer.parseInt(request.getParameter("action"));
-                boolean complete = Boolean.parseBoolean(request.getParameter("complete"));
-                responseJSON = checkActionOperation(actionKey, complete);
-            }
-            break;
-            case OPERATION_CHANGE_NOTE: {
-                String name = request.getParameter("name");
-                String text = request.getParameter("text");
-                String actions = request.getParameter("actions");
-                String[] actionArray = actions.split(";");
-                responseJSON = changeNoteOperation(noteKey, name, text, actionArray);
-            }
-            break;
-        }
-
-        PrintWriter out = response.getWriter();
-        out.print(responseJSON);
-    }
-
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
-    }
-
-    private String loadOperation(int noteKey) {
+    @RequestMapping(value = "/loadNote", headers = "Accept=application/json", method = RequestMethod.GET)
+    @ResponseBody
+    public NoteDto loadNoteOperation(@RequestParam(value = "key") int noteKey) {
         DAO<Note> noteDataAccessor = dataFactory.createNoteDAO();
 
         Note note = noteDataAccessor.getById(noteKey);
@@ -82,28 +41,31 @@ public class NoteController extends HttpServlet {
 
         int parentKey = (note.getGroup() == null)? NOT_GROUP : note.getGroup().getId();
 
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-        return gson.toJson(new NoteDto(note.getId(), parentKey, note.getName(), note.getText(), actionDtos));
+        return new NoteDto(note.getId(), parentKey, note.getName(), note.getText(), actionDtos);
     }
 
-    private String checkActionOperation(int actionKey, boolean complete) {
+    @RequestMapping(value = "/checkAction", headers = "Accept=application/json", method = RequestMethod.GET)
+    @ResponseBody
+    public Boolean checkActionOperation(@RequestParam(value = "action") int actionKey,
+                                        @RequestParam(value = "complete") boolean complete) {
         DAO<Action> actionDataAccessor = dataFactory.createActionDAO();
 
         Action action = actionDataAccessor.getById(actionKey);
         action.setPassed(complete);
         actionDataAccessor.update(action);
 
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-        return gson.toJson(complete);
+        return complete;
     }
 
-    private String changeNoteOperation(int noteKey, String name, String text, String[] actionTexts) {
+    @RequestMapping(value = "/changeNote", headers = "Accept=application/json", method = RequestMethod.GET)
+    @ResponseBody
+    public NoteDto changeNoteOperation(@RequestParam(value = "key") int noteKey,
+                                       @RequestParam(value = "name") String name,
+                                       @RequestParam(value = "text") String text,
+                                       @RequestParam(value = "actions") String actionTextStr) {
         DAO<Note> noteDataAccessor = dataFactory.createNoteDAO();
 
+        String[] actionTexts = actionTextStr.split(";");
         Note note = noteDataAccessor.getById(noteKey);
         if (actionTexts.length != 0) {
             DAO<Action> actionDataAccessor = dataFactory.createActionDAO();
@@ -133,9 +95,6 @@ public class NoteController extends HttpServlet {
 
         int parentKey = (newNote.getGroup() == null)? NOT_GROUP : newNote.getGroup().getId();
 
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-        return gson.toJson(new NoteDto(newNote.getId(), parentKey, newNote.getName(), newNote.getText(), actionDtos));
+        return new NoteDto(newNote.getId(), parentKey, newNote.getName(), newNote.getText(), actionDtos);
     }
 }

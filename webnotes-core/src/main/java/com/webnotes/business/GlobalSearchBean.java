@@ -5,8 +5,6 @@ import com.webnotes.data.dao.DAOFactory;
 import com.webnotes.data.entity.Action;
 import com.webnotes.data.entity.Note;
 
-import javax.ejb.Local;
-import javax.ejb.Stateless;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

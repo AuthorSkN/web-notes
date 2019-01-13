@@ -178,7 +178,8 @@ class ListPresenter {
         } else {
             $('#createModal').modal('hide');
             let typeItem = $('#createModal input[name="options"]:checked').val();
-            this.callbackCreateFunction(typeItem, inputName, this.inGroup);
+            let groupKey = (this.inGroup == null)? -1 : Number(this.inGroup);
+            this.callbackCreateFunction(typeItem, inputName, groupKey);
         }
         
     }
@@ -190,7 +191,8 @@ class ListPresenter {
         } else {
             $('#createModalOnlyNote').modal('hide');
             let typeItem = "note";
-            this.callbackCreateFunction(typeItem, inputName, this.inGroup);
+            let groupKey = (this.inGroup == null)? -1 : Number(this.inGroup);
+            this.callbackCreateFunction(typeItem, inputName, groupKey);
         }
     }
 
@@ -200,7 +202,8 @@ class ListPresenter {
             alert("Name can't be empty.");
         } else {
             $('#editGroupNameModal').modal('hide');
-            this.callbackEditGtoupNameFunction(this.inGroup, inputName);
+            let groupKey = (this.inGroup == null)? -1 : Number(this.inGroup);
+            this.callbackEditGtoupNameFunction(groupKey, inputName);
         }
     }
 

@@ -1,12 +1,5 @@
 'use strict';
 
-const OPERATION_LOAD = 0;
-const OPERATION_ADD_NOTE = 1;
-const OPERATION_ADD_GROUP = 2;
-const OPERATION_REMOVE_NOTE = 3;
-const OPERATION_REMOVE_GROUP = 4;
-const OPERATION_EDIT_GROUP = 5;
-
 class ListController {
 
     constructor(){
@@ -37,10 +30,9 @@ class ListController {
 
 
     loadFullList(key){
-        $.get("list-controller",
-            {oper: OPERATION_LOAD},
+        $.get("/loadAll",
             (data) => {
-                this.notesModel.setData(JSON.parse(data));
+                this.notesModel.setData(data);
                 if (typeof key === "undefined") {
                     this.presenter.drawAllContent();
                 } else {
@@ -51,10 +43,10 @@ class ListController {
     }
 
     createNewGroup(name) {
-        $.get("list-controller",
-            {oper: OPERATION_ADD_GROUP, name: name},
+        $.get("/addGroup",
+            {name: name},
             (data) => {
-                this.notesModel.addGroup(JSON.parse(data));
+                this.notesModel.addGroup(data);
                 this.presenter.drawAllContent();
             }
         );
@@ -62,10 +54,10 @@ class ListController {
 
     createNewNote(groupKey, name) {
         alert("getRequest?name="+name+"&group="+groupKey);
-        $.get("list-controller",
-            {oper: OPERATION_ADD_NOTE, name: name, group: groupKey},
+        $.get("/addNote",
+            {name: name, group: groupKey},
             (data) => {
-                this.notesModel.addNote(JSON.parse(data));
+                this.notesModel.addNote(data);
                 this.presenter.drawAllContent();
             }
         );
@@ -73,28 +65,28 @@ class ListController {
 
 
     removeGroup(groupKey) {
-        $.get("list-controller",
-            {oper: OPERATION_REMOVE_GROUP, key: groupKey},
+        $.get("/deleteGroup",
+            {key: groupKey},
             (data) => {
-                this.notesModel.removeGroup(JSON.parse(data));
+                this.notesModel.removeGroup(data);
                 this.presenter.drawAllContent();
             }
         );
     }
 
     removeNote(noteKey) {
-        $.get("list-controller",
-            {oper: OPERATION_REMOVE_NOTE, key: noteKey},
+        $.get("/deleteNote",
+            {key: noteKey},
             (data) => {
-                this.notesModel.removeNote(JSON.parse(data));
+                this.notesModel.removeNote(data);
                 this.presenter.drawAllContent();
             }
         );
     }
 
     editGroupName(groupKey, newGroupName) {
-        $.get("list-controller",
-            {oper: OPERATION_EDIT_GROUP, key: groupKey, name: newGroupName },
+        $.get("/editGroupName",
+            {key: groupKey, name: newGroupName },
             () => {
                 this.notesModel.changeGroupName(groupKey, newGroupName);
                 this.presenter.drawGroupContent(groupKey);
