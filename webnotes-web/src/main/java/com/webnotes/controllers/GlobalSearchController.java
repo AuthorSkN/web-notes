@@ -16,6 +16,7 @@ public class GlobalSearchController {
 
     private static final int NOT_GROUP = -1;
     private static final GroupDto[] EMPTY_GROUPS_DTO = new GroupDto[0];
+    private static final NoteHeaderDto[] EMPTY_NOTES_DTO = new NoteHeaderDto[0];
 
     @Autowired
     private GlobalSearchOperation globalSearchOperation;
@@ -24,7 +25,7 @@ public class GlobalSearchController {
     @ResponseBody
     public ListDto globalSearch(@RequestParam(value = "sstr") String searchString) {
         if (searchString.isEmpty()) {
-            return new ListDto(new NoteHeaderDto[0], EMPTY_GROUPS_DTO);
+            return new ListDto(EMPTY_NOTES_DTO, EMPTY_GROUPS_DTO);
         } else {
             Set<Note> selectedNotes = globalSearchOperation.globalSearch(searchString.toLowerCase());
             NoteHeaderDto[] noteHeaderDtos = new NoteHeaderDto[selectedNotes.size()];
