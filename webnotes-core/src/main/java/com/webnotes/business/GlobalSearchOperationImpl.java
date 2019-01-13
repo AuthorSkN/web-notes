@@ -4,21 +4,24 @@ import com.webnotes.data.dao.DAO;
 import com.webnotes.data.dao.DAOFactory;
 import com.webnotes.data.entity.Action;
 import com.webnotes.data.entity.Note;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class GlobalSearchBean {
+@Component
+public class GlobalSearchOperationImpl implements GlobalSearchOperation {
 
-    private DAOFactory dataFactory = new DAOFactory(DAOFactory.HIBERNATE_ADAPTER);
+    @Autowired
+    private DAO<Note> noteDataAccessor;
 
-    public GlobalSearchBean() {
+    public GlobalSearchOperationImpl() {
     }
 
-    public Set<Note> globalSerach(String searchString) {
-        DAO<Note> noteDataAccessor = dataFactory.createNoteDAO();
-
+    public Set<Note> globalSearch(String searchString) {
         List<Note> allNotes = noteDataAccessor.getAll();
         Set<Note> selectedNotes = new HashSet<>();
 

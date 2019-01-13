@@ -3,8 +3,10 @@ package com.webnotes.controllers;
 import com.webnotes.data.dao.DAO;
 import com.webnotes.data.dao.DAOFactory;
 import com.webnotes.data.entity.Action;
+import com.webnotes.data.entity.Group;
 import com.webnotes.data.entity.Note;
 import com.webnotes.dto.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -14,15 +16,15 @@ public class NoteController {
 
     private static final int NOT_GROUP = -1;
 
-
-    private DAOFactory dataFactory = new DAOFactory(DAOFactory.HIBERNATE_ADAPTER);
+    @Autowired
+    private DAO<Note> noteDataAccessor;
+    @Autowired
+    private DAO<Action> actionDataAccessor;
 
 
     @RequestMapping(value = "/loadNote", headers = "Accept=application/json", method = RequestMethod.GET)
     @ResponseBody
     public NoteDto loadNoteOperation(@RequestParam(value = "key") int noteKey) {
-        DAO<Note> noteDataAccessor = dataFactory.createNoteDAO();
-
         Note note = noteDataAccessor.getById(noteKey);
 
         Set<Action> noteActions = note.getActions();
@@ -42,8 +44,6 @@ public class NoteController {
     @ResponseBody
     public Boolean checkActionOperation(@RequestParam(value = "action") int actionKey,
                                         @RequestParam(value = "complete") boolean complete) {
-        DAO<Action> actionDataAccessor = dataFactory.createActionDAO();
-
         Action action = actionDataAccessor.getById(actionKey);
         action.setPassed(complete);
         actionDataAccessor.update(action);
@@ -57,13 +57,9 @@ public class NoteController {
                                        @RequestParam(value = "name") String name,
                                        @RequestParam(value = "text") String text,
                                        @RequestParam(value = "actions") String actionTextStr) {
-        DAO<Note> noteDataAccessor = dataFactory.createNoteDAO();
-
         String[] actionTexts = actionTextStr.split(";");
         Note note = noteDataAccessor.getById(noteKey);
         if (actionTexts.length != 0) {
-            DAO<Action> actionDataAccessor = dataFactory.createActionDAO();
-
             for (Action action : note.getActions()) {
                 actionDataAccessor.delete(action);
             }

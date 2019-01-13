@@ -1,17 +1,14 @@
 package com.webnotes.controllers;
 
-
 import com.webnotes.data.dao.DAO;
-import com.webnotes.data.dao.DAOFactory;
 import com.webnotes.data.entity.Group;
 import com.webnotes.data.entity.Note;
 import com.webnotes.dto.GroupDto;
 import com.webnotes.dto.ListDto;
 import com.webnotes.dto.NoteHeaderDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 
 @RestController
@@ -20,18 +17,17 @@ public class ListController {
     private static final String EMPTY_TEXT = "";
     private static final long NOT_GROUP = -1;
 
-
-    private DAOFactory dataFactory = new DAOFactory(DAOFactory.HIBERNATE_ADAPTER);
+    @Autowired
+    private DAO<Note> noteDataAccessor;
+    @Autowired
+    private DAO<Group> groupDataAccessor;
 
 
     @RequestMapping(value = "/loadAll", headers = "Accept=application/json", method = RequestMethod.GET)
     @ResponseBody
     public ListDto loadAllOperation() {
-        DAO<Note> noteDataAccessor = dataFactory.createNoteDAO();
-        DAO<Group> groupsDataAccessor = dataFactory.createGroupDAO();
-
         List<Note> notesData = noteDataAccessor.getAll();
-        List<Group> groupsData = groupsDataAccessor.getAll();
+        List<Group> groupsData = groupDataAccessor.getAll();
 
         List<NoteHeaderDto> noteHeaderDtoList = new ArrayList<>();
         List<GroupDto> groupDtoList = new ArrayList<>();
@@ -63,11 +59,8 @@ public class ListController {
     @ResponseBody
     public NoteHeaderDto addNoteOperation(@RequestParam(value = "name") String name,
                                           @RequestParam(value = "group") int groupKey) {
-        DAO<Note> noteDataAccessor = dataFactory.createNoteDAO();
-
         Note note = new Note(name, EMPTY_TEXT, new Date());
         if (groupKey != -1) {
-            DAO<Group> groupDataAccessor = dataFactory.createGroupDAO();
             Group parentGroup = groupDataAccessor.getById(groupKey);
             note.setGroup(parentGroup);
             parentGroup.getNotes().add(note);
@@ -82,10 +75,8 @@ public class ListController {
     @RequestMapping(value = "/addGroup", headers = "Accept=application/json", method = RequestMethod.GET)
     @ResponseBody
     public GroupDto addGroupOperation(@RequestParam(value = "name") String name) {
-        DAO<Group> folderDataAccessor = dataFactory.createGroupDAO();
-
         Group group = new Group(name, new Date());
-        folderDataAccessor.add(group);
+        groupDataAccessor.add(group);
 
         return new GroupDto(group.getId(), group.getName(), new NoteHeaderDto[]{});
     }
@@ -93,7 +84,6 @@ public class ListController {
     @RequestMapping(value = "/deleteNote", headers = "Accept=application/json", method = RequestMethod.GET)
     @ResponseBody
     public NoteHeaderDto deleteNoteOperation(@RequestParam(value = "key") int noteKey) {
-        DAO<Note> noteDataAccessor = dataFactory.createNoteDAO();
 
         Note note = noteDataAccessor.getById(noteKey);
         Group parentGroup = note.getGroup();
@@ -109,8 +99,6 @@ public class ListController {
     @RequestMapping(value = "/deleteGroup", headers = "Accept=application/json", method = RequestMethod.GET)
     @ResponseBody
     public Integer removeGroupOperation(@RequestParam(value = "key") int groupKey) {
-        DAO<Group> groupDataAccessor = dataFactory.createGroupDAO();
-
         Group group = groupDataAccessor.getById(groupKey);
         groupDataAccessor.delete(group);
 
@@ -121,8 +109,6 @@ public class ListController {
     @ResponseBody
     public Integer editGroupNameOperation(@RequestParam(value = "key") int groupKey,
                                            @RequestParam(value = "name") String newGroupName) {
-        DAO<Group> groupDataAccessor = dataFactory.createGroupDAO();
-
         Group group = groupDataAccessor.getById(groupKey);
         group.setName(newGroupName);
         groupDataAccessor.update(group);
