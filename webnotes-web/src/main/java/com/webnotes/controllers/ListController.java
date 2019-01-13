@@ -16,12 +16,6 @@ import java.util.*;
 
 @RestController
 public class ListController {
-    private static final int OPERATION_LOAD = 0;
-    private static final int OPERATION_ADD_NOTE = 1;
-    private static final int OPERATION_ADD_GROUP = 2;
-    private static final int OPERATION_REMOVE_NOTE = 3;
-    private static final int OPERATION_REMOVE_GROUP = 4;
-    private static final int OPERATION_EDIT_GROUP = 5;
 
     private static final String EMPTY_TEXT = "";
     private static final long NOT_GROUP = -1;

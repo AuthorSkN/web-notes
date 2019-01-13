@@ -1,9 +1,5 @@
 'use strict';
 
-const OPERATION_LOAD = 0;
-const OPERATION_CHECK_ACTION = 1;
-const OPERATION_CHANGE_NOTE = 2;
-
 class NoteController {
 
     constructor(noteKey) {
@@ -22,10 +18,10 @@ class NoteController {
     }
 
     loadNoteContent() {
-        $.get("note-controller",
-            {oper: OPERATION_LOAD, key: this.noteKey},
+        $.get("/loadNote",
+            {key: this.noteKey},
             (data) => {
-                this.noteModel.setNoteContent(JSON.parse(data));
+                this.noteModel.setNoteContent(data);
                 this.presenter.drawNoteContent();
             });
     }
@@ -35,18 +31,18 @@ class NoteController {
     }
 
     changeNoteContent(name, text, actionTexts) {
-        $.get("note-controller",
-            {oper: OPERATION_CHANGE_NOTE, key: this.noteKey, name: name, text: text, actions: actionTexts},
+        $.get("/changeNote",
+            {key: this.noteKey, name: name, text: text, actions: actionTexts},
             (data) => {
-                this.noteModel.setNoteContent(JSON.parse(data));
+                this.noteModel.setNoteContent(data);
                 this.presenter.drawNoteContent();
             }
         );
     }
 
     checkAction(actionKey, complete) {
-        $.get("note-controller",
-            {oper: OPERATION_CHECK_ACTION, key: this.noteKey, action: actionKey, complete: complete}
+        $.get("/checkAction",
+            {key: this.noteKey, action: actionKey, complete: complete}
         );
     }
 

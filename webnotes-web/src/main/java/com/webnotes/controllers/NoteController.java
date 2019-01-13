@@ -7,16 +7,10 @@ import com.webnotes.data.entity.Note;
 import com.webnotes.dto.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 
 @RestController
 public class NoteController {
-
-    private static final int OPERATION_LOAD = 0;
-    private static final int OPERATION_CHECK_ACTION = 1;
-    private static final int OPERATION_CHANGE_NOTE = 2;
 
     private static final int NOT_GROUP = -1;
 
@@ -35,11 +29,11 @@ public class NoteController {
         ActionDto[] actionDtos = new ActionDto[noteActions.size()];
 
         int idx = 0;
-        for(Action action: noteActions) {
+        for (Action action : noteActions) {
             actionDtos[idx++] = new ActionDto(action.getId(), action.getPassed(), action.getText());
         }
 
-        int parentKey = (note.getGroup() == null)? NOT_GROUP : note.getGroup().getId();
+        int parentKey = (note.getGroup() == null) ? NOT_GROUP : note.getGroup().getId();
 
         return new NoteDto(note.getId(), parentKey, note.getName(), note.getText(), actionDtos);
     }
@@ -70,12 +64,12 @@ public class NoteController {
         if (actionTexts.length != 0) {
             DAO<Action> actionDataAccessor = dataFactory.createActionDAO();
 
-            for (Action action: note.getActions()) {
+            for (Action action : note.getActions()) {
                 actionDataAccessor.delete(action);
             }
             note.getActions().clear();
 
-            for(String newActionText: actionTexts) {
+            for (String newActionText : actionTexts) {
                 Action newAction = new Action(newActionText, false);
                 newAction.setNote(note);
                 note.getActions().add(newAction);
@@ -89,11 +83,11 @@ public class NoteController {
 
         ActionDto[] actionDtos = new ActionDto[actionTexts.length];
         int idx = 0;
-        for (Action newAction: newNote.getActions()) {
+        for (Action newAction : newNote.getActions()) {
             actionDtos[idx++] = new ActionDto(newAction.getId(), false, newAction.getText());
         }
 
-        int parentKey = (newNote.getGroup() == null)? NOT_GROUP : newNote.getGroup().getId();
+        int parentKey = (newNote.getGroup() == null) ? NOT_GROUP : newNote.getGroup().getId();
 
         return new NoteDto(newNote.getId(), parentKey, newNote.getName(), newNote.getText(), actionDtos);
     }
