@@ -1,7 +1,6 @@
 package com.webnotes.business;
 
-import com.webnotes.data.dao.DAO;
-import com.webnotes.data.dao.DAOFactory;
+import com.webnotes.data.dao.*;
 import com.webnotes.data.entity.Action;
 import com.webnotes.data.entity.Group;
 import com.webnotes.data.entity.Note;
@@ -21,19 +20,19 @@ public class BusinessLayerConfig {
 
     @Bean
     @SessionScope
-    public DAO<Note> getNoteDataAccessor() {
+    public NoteDAOImpl getNoteDataAccessor() {
         return daoFactory.createNoteDAO();
     }
 
     @Bean
     @SessionScope
-    public DAO<Group> getGroupDataAccessor() {
+    public GroupDAOImpl getGroupDataAccessor() {
         return daoFactory.createGroupDAO();
     }
 
     @Bean
     @SessionScope
-    public DAO<Action> getActionDataAccessor() {
+    public ActionDAOImpl getActionDataAccessor() {
         return daoFactory.createActionDAO();
     }
 

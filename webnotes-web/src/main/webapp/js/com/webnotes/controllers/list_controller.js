@@ -30,7 +30,23 @@ class ListController {
 
 
     loadFullList(key){
-        $.get("/loadAll",
+        $.ajax({
+            url:"/loadAll",
+            headers: {
+                Accept: "application/xml; charset=utf-8",
+                "Content-Type": "application/xml; charset=utf-8"
+            },
+            success : (data) => {
+                this.notesModel.setData(data);
+                if (typeof key === "undefined") {
+                    this.presenter.drawAllContent();
+                } else {
+                    this.presenter.drawGroupContent(key);
+                }
+            }
+        });
+
+        /*$.get("/loadAll",
             (data) => {
                 this.notesModel.setData(data);
                 if (typeof key === "undefined") {
@@ -39,7 +55,7 @@ class ListController {
                     this.presenter.drawGroupContent(key);
                 }
             }
-        );
+        );*/
     }
 
     createNewGroup(name) {

@@ -1,7 +1,9 @@
 package com.webnotes.controllers;
 
+import com.webnotes.data.dao.ActionDAOImpl;
 import com.webnotes.data.dao.DAO;
 import com.webnotes.data.dao.DAOFactory;
+import com.webnotes.data.dao.NoteDAOImpl;
 import com.webnotes.data.entity.Action;
 import com.webnotes.data.entity.Group;
 import com.webnotes.data.entity.Note;
@@ -17,9 +19,9 @@ public class NoteController {
     private static final int NOT_GROUP = -1;
 
     @Autowired
-    private DAO<Note> noteDataAccessor;
+    private NoteDAOImpl noteDataAccessor;
     @Autowired
-    private DAO<Action> actionDataAccessor;
+    private ActionDAOImpl actionDataAccessor;
 
 
     @RequestMapping(value = "/loadNote", headers = "Accept=application/json", method = RequestMethod.GET)

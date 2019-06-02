@@ -2,6 +2,7 @@ package com.webnotes.business;
 
 import com.webnotes.data.dao.DAO;
 import com.webnotes.data.dao.DAOFactory;
+import com.webnotes.data.dao.NoteDAOImpl;
 import com.webnotes.data.entity.Action;
 import com.webnotes.data.entity.Note;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.Set;
 public class GlobalSearchOperationImpl implements GlobalSearchOperation {
 
     @Autowired
-    private DAO<Note> noteDataAccessor;
+    private NoteDAOImpl noteDataAccessor;
 
     public GlobalSearchOperationImpl() {
     }

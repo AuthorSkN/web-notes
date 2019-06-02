@@ -1,12 +1,15 @@
 package com.webnotes.controllers;
 
 import com.webnotes.data.dao.DAO;
+import com.webnotes.data.dao.GroupDAOImpl;
+import com.webnotes.data.dao.NoteDAOImpl;
 import com.webnotes.data.entity.Group;
 import com.webnotes.data.entity.Note;
 import com.webnotes.dto.GroupDto;
 import com.webnotes.dto.ListDto;
 import com.webnotes.dto.NoteHeaderDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -18,12 +21,13 @@ public class ListController {
     private static final long NOT_GROUP = -1;
 
     @Autowired
-    private DAO<Note> noteDataAccessor;
+    private NoteDAOImpl noteDataAccessor;
     @Autowired
-    private DAO<Group> groupDataAccessor;
+    private GroupDAOImpl groupDataAccessor;
 
 
-    @RequestMapping(value = "/loadAll", headers = "Accept=application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/loadAll", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+        method = RequestMethod.GET)
     @ResponseBody
     public ListDto loadAllOperation() {
         List<Note> notesData = noteDataAccessor.getAll();
