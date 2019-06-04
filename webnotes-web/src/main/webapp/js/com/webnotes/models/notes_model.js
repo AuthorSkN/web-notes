@@ -32,6 +32,7 @@ class NotesModel {
             if (dto.groups.groups.length) {
                 for (let group of dto.groups.groups) {
                     this.groups[group.key] = new Group(group.key, group.name);
+                    if (!group.notes) continue;
                     if (group.notes.length) {
                         for (let note of group.notes) {
                             this.groups[group.key].add(note);

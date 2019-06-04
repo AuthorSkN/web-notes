@@ -35,9 +35,8 @@ class ListController {
         return hackXML.substring(0, sp) + hackXML.substr(ep);
     }
 
-
-    loadFullList(key){
-        const headers = window.isJSON
+    getHeader() {
+        return window.isJSON
             ? {
                 Accept: "application/json; charset=utf-8",
                 "Content-Type": "application/json; charset=utf-8"
@@ -46,9 +45,13 @@ class ListController {
                 Accept: "application/xml; charset=utf-8",
                 "Content-Type": "application/xml; charset=utf-8"
             };
+    }
+
+
+    loadFullList(key){
         $.ajax({
             url:"/loadAll",
-            headers: headers,
+            headers: this.getHeader(),
             success : (data) => {
                 if (!window.isJSON) {
                     const json = xml2json(data);
@@ -65,60 +68,80 @@ class ListController {
             }
         });
 
-
-
-        /*$.get("/loadAll",
-            (data) => {
-                this.notesModel.setData(data);
-                if (typeof key === "undefined") {
-                    this.presenter.drawAllContent();
-                } else {
-                    this.presenter.drawGroupContent(key);
-                }
-            }
-        );*/
     }
 
     createNewGroup(name) {
-        $.get("/addGroup",
-            {name: name},
-            (data) => {
-                this.notesModel.addGroup(data);
+        $.ajax({
+            url:"/addGroup",
+            headers: this.getHeader(),
+            data: {name: name},
+            success : (data) => {
+                if (!window.isJSON) {
+                    const json = xml2json(data);
+                    const fixData = JSON.parse(this.clearing(json)).GroupDto;
+                    this.notesModel.addGroup(fixData);
+                } else {
+                    this.notesModel.addGroup(data);
+                }
                 this.presenter.drawAllContent();
             }
-        );
+        });
     }
 
     createNewNote(groupKey, name) {
-        alert("getRequest?name="+name+"&group="+groupKey);
-        $.get("/addNote",
-            {name: name, group: groupKey},
-            (data) => {
-                this.notesModel.addNote(data);
+        $.ajax({
+            url:"/addNote",
+            headers: this.getHeader(),
+            data: {name: name, group: groupKey},
+            success : (data) => {
+                if (!window.isJSON) {
+                    const json = xml2json(data);
+                    const fixData = JSON.parse(this.clearing(json)).NoteHeaderDto;
+                    this.notesModel.addNote(fixData);
+                } else {
+                    this.notesModel.addNote(data);
+                }
                 this.presenter.drawAllContent();
             }
-        );
+        });
     }
 
 
     removeGroup(groupKey) {
-        $.get("/deleteGroup",
-            {key: groupKey},
-            (data) => {
-                this.notesModel.removeGroup(data);
+        $.ajax({
+            url:"/deleteGroup",
+            headers: this.getHeader(),
+            data: {key: groupKey},
+            success : (data) => {
+                if (!window.isJSON) {
+                    const json = xml2json(data);
+                    const fixData = JSON.parse(this.clearing(json)).Integer;
+                    this.notesModel.removeGroup(fixData);
+                } else {
+                    this.notesModel.removeGroup(data);
+                }
                 this.presenter.drawAllContent();
             }
-        );
+        });
     }
 
     removeNote(noteKey) {
-        $.get("/deleteNote",
-            {key: noteKey},
-            (data) => {
-                this.notesModel.removeNote(data);
+        $.ajax({
+            url:"/deleteNote",
+            headers: this.getHeader(),
+            data: {key: noteKey},
+            success : (data) => {
+                if (!window.isJSON) {
+                    const json = xml2json(data);
+                    const fixData = JSON.parse(this.clearing(json)).NoteHeaderDto;
+                    fixData.parentKey = Number(fixData.parentKey);
+                    this.notesModel.removeNote(fixData);
+                } else {
+                    this.notesModel.removeNote(data);
+                }
                 this.presenter.drawAllContent();
             }
-        );
+        });
     }
 
     editGroupName(groupKey, newGroupName) {
