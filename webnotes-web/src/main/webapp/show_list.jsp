@@ -24,7 +24,7 @@
 
 <script>
     let key = "<c:out value="${param['key']}"/>";
-    let listController = new ListController();
+    let listController = new ListController(true);
     if ((key === "") || (Number(key) === -1)) {
         listController.loadFullList();
     } else {

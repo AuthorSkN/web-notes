@@ -59,7 +59,8 @@ public class ListController {
         return new ListDto(noteHeaderDtos, groupDtos);
     }
 
-    @RequestMapping(value = "/addNote", headers = "Accept=application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/addNote", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
     @ResponseBody
     public NoteHeaderDto addNoteOperation(@RequestParam(value = "name") String name,
                                           @RequestParam(value = "group") int groupKey) {
@@ -76,7 +77,8 @@ public class ListController {
                 (note.getGroup() == null) ? NOT_GROUP : note.getGroup().getId());
     }
 
-    @RequestMapping(value = "/addGroup", headers = "Accept=application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/addGroup", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
     @ResponseBody
     public GroupDto addGroupOperation(@RequestParam(value = "name") String name) {
         Group group = new Group(name, new Date());
@@ -85,7 +87,8 @@ public class ListController {
         return new GroupDto(group.getId(), group.getName(), new NoteHeaderDto[]{});
     }
 
-    @RequestMapping(value = "/deleteNote", headers = "Accept=application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteNote", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
     @ResponseBody
     public NoteHeaderDto deleteNoteOperation(@RequestParam(value = "key") int noteKey) {
 
@@ -100,7 +103,8 @@ public class ListController {
                 (parentGroup == null) ? NOT_GROUP : parentGroup.getId());
     }
 
-    @RequestMapping(value = "/deleteGroup", headers = "Accept=application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteGroup", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
     @ResponseBody
     public Integer removeGroupOperation(@RequestParam(value = "key") int groupKey) {
         Group group = groupDataAccessor.getById(groupKey);
@@ -109,7 +113,8 @@ public class ListController {
         return groupKey;
     }
 
-    @RequestMapping(value = "/editGroupName", headers = "Accept=application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/editGroupName", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            method = RequestMethod.GET)
     @ResponseBody
     public Integer editGroupNameOperation(@RequestParam(value = "key") int groupKey,
                                            @RequestParam(value = "name") String newGroupName) {

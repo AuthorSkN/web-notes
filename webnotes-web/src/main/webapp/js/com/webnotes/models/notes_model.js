@@ -8,15 +8,49 @@ class NotesModel {
         this.groups = {};
 	}
 
-	setData(dto) {
-        for (let note of dto.notes) {
-            this.notes[note.key] = new Note(note.key, note.name, null);
-        }
-        for (let group of dto.groups) {
-            this.groups[group.key] = new Group(group.key, group.name);
-            for (let note of group.notes) {
-                this.groups[group.key].add(note);
+	setData(dto, isJSON) {
+        const notesHandler = (notes) => {
+        	if (notes.length) {
+                for (let note of notes) {
+                    this.notes[note.key] = new Note(note.key, note.name, null);
+                }
+            } else {
+                this.notes[notes.key] = new Note(notes.key, notes.name, null);
             }
+        };
+
+		if (isJSON) {
+            notesHandler(dto.notes);
+			for (let group of dto.groups) {
+				this.groups[group.key] = new Group(group.key, group.name);
+				for (let note of group.notes) {
+					this.groups[group.key].add(note);
+				}
+			}
+        } else {
+            notesHandler(dto.notes.notes);
+            if (dto.groups.groups.length) {
+                for (let group of dto.groups.groups) {
+                    this.groups[group.key] = new Group(group.key, group.name);
+                    if (group.notes.length) {
+                        for (let note of group.notes) {
+                            this.groups[group.key].add(note);
+                        }
+                    } else {
+                        this.groups[group.key].add(group.notes);
+                    }
+                }
+			} else {
+            	const group = dto.groups.groups;
+                this.groups[group.key] = new Group(group.key, group.name);
+                if (group.notes.length) {
+                    for (let note of group.notes) {
+                        this.groups[group.key].add(note);
+                    }
+                } else {
+                    this.groups[group.key].add(group.notes);
+                }
+			}
         }
     }
 

@@ -2,7 +2,8 @@
 
 class ListController {
 
-    constructor(){
+    constructor(isJSON){
+        window.isJSON = isJSON;
         this.notesModel = new NotesModel();
         this.presenter = new ListPresenter(this.notesModel,
             (type, name, inGroup) => {
@@ -28,16 +29,34 @@ class ListController {
 
     }
 
+    clearing(hackXML) {
+        const sp = hackXML.indexOf("undefined");
+        const ep = sp + 9;
+        return hackXML.substring(0, sp) + hackXML.substr(ep);
+    }
+
 
     loadFullList(key){
-        $.ajax({
-            url:"/loadAll",
-            headers: {
+        const headers = window.isJSON
+            ? {
+                Accept: "application/json; charset=utf-8",
+                "Content-Type": "application/json; charset=utf-8"
+            }
+            : {
                 Accept: "application/xml; charset=utf-8",
                 "Content-Type": "application/xml; charset=utf-8"
-            },
+            };
+        $.ajax({
+            url:"/loadAll",
+            headers: headers,
             success : (data) => {
-                this.notesModel.setData(data);
+                if (!window.isJSON) {
+                    const json = xml2json(data);
+                    const fixData = JSON.parse(this.clearing(json)).ListDto;
+                    this.notesModel.setData(fixData, false);
+                } else {
+                    this.notesModel.setData(data, true);
+                }
                 if (typeof key === "undefined") {
                     this.presenter.drawAllContent();
                 } else {
@@ -45,6 +64,8 @@ class ListController {
                 }
             }
         });
+
+
 
         /*$.get("/loadAll",
             (data) => {
@@ -113,5 +134,7 @@ class ListController {
     toNotePage(noteKey) {
         location.href='show_note.jsp?key='+noteKey;
     }
+
+
 
 }
