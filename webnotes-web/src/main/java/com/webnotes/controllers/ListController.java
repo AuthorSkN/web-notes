@@ -29,14 +29,10 @@ public class ListController {
     private WebNoteMessageSender webNoteMessageSender;
 
 
-
-
     @RequestMapping(value = "/loadAll", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
         method = RequestMethod.GET)
     @ResponseBody
     public ListDto loadAllOperation() {
-        webNoteMessageSender.send(new Note("my_note", "some text", new Date()));
-
         List<Note> notesData = noteDataAccessor.getAll();
         List<Group> groupsData = groupDataAccessor.getAll();
 
@@ -79,6 +75,8 @@ public class ListController {
         }
         noteDataAccessor.add(note);
 
+        webNoteMessageSender.sendNoteOperation(note, "add");
+
         return new NoteHeaderDto(note.getId(),
                 note.getName(),
                 (note.getGroup() == null) ? NOT_GROUP : note.getGroup().getId());
@@ -90,6 +88,8 @@ public class ListController {
     public GroupDto addGroupOperation(@RequestParam(value = "name") String name) {
         Group group = new Group(name, new Date());
         groupDataAccessor.add(group);
+
+        webNoteMessageSender.sendGroupOperation(group, "add");
 
         return new GroupDto(group.getId(), group.getName(), new NoteHeaderDto[]{});
     }
@@ -106,6 +106,8 @@ public class ListController {
             parentGroup.getNotes().remove(note);
         }
 
+        webNoteMessageSender.sendNoteOperation(note, "delete");
+
         return new NoteHeaderDto(noteKey, note.getName(),
                 (parentGroup == null) ? NOT_GROUP : parentGroup.getId());
     }
@@ -116,6 +118,8 @@ public class ListController {
     public Integer removeGroupOperation(@RequestParam(value = "key") int groupKey) {
         Group group = groupDataAccessor.getById(groupKey);
         groupDataAccessor.delete(group);
+
+        webNoteMessageSender.sendGroupOperation(group, "delete");
 
         return groupKey;
     }
@@ -128,6 +132,8 @@ public class ListController {
         Group group = groupDataAccessor.getById(groupKey);
         group.setName(newGroupName);
         groupDataAccessor.update(group);
+
+        webNoteMessageSender.sendGroupOperation(group, "update");
 
         return groupKey;
     }

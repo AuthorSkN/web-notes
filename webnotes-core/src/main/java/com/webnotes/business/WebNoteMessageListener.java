@@ -11,10 +11,27 @@ public class WebNoteMessageListener implements MessageListener {
         Map map = null;
         try {
             map = (Map) ((MapMessage) message).getObject("map");
-            System.out.println(map.get("name"));
+            String type = map.get("type").toString();
+            String operation = map.get("operation").toString();
+            switch (type) {
+                case "note": logNote(map, operation); break;
+                case "group": logGroup(map, operation); break;
+                case "action": logAction(map, operation); break;
+            }
         } catch (JMSException e) {
             e.printStackTrace();
         }
+    }
 
+    private void logNote(Map note, String operation){
+        System.out.println(operation + " note" + note.get("id"));
+    }
+
+    private void logGroup(Map group, String operation){
+        System.out.println(operation + " group" + group.get("id"));
+    }
+
+    private void logAction(Map action, String operation){
+        System.out.println(operation + " action" + action.get("id"));
     }
 }
