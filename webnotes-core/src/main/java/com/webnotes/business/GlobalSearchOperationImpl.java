@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-public class GlobalSearchOperationImpl implements GlobalSearchOperation {
+public class GlobalSearchOperationImpl {
 
     @Autowired
     private NoteDAOImpl noteDataAccessor;

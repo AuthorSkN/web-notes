@@ -1,9 +1,8 @@
 package com.webnotes.controllers;
 
-import com.webnotes.business.GlobalSearchOperation;
+import com.webnotes.business.GlobalSearchOperationImpl;
 import com.webnotes.data.entity.Note;
 import com.webnotes.dto.GroupDto;
-import com.webnotes.business.GlobalSearchOperationImpl;
 import com.webnotes.dto.ListDto;
 import com.webnotes.dto.NoteHeaderDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class GlobalSearchController {
     private static final NoteHeaderDto[] EMPTY_NOTES_DTO = new NoteHeaderDto[0];
 
     @Autowired
-    private GlobalSearchOperation globalSearchOperation;
+    private GlobalSearchOperationImpl globalSearchOperation;
 
     @RequestMapping(value = "/globalSearch", headers = "Accept=application/json", method = RequestMethod.GET)
     @ResponseBody

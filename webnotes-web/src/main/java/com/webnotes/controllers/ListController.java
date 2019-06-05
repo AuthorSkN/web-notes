@@ -1,6 +1,6 @@
 package com.webnotes.controllers;
 
-import com.webnotes.data.dao.DAO;
+import com.webnotes.business.WebNoteMessageSender;
 import com.webnotes.data.dao.GroupDAOImpl;
 import com.webnotes.data.dao.NoteDAOImpl;
 import com.webnotes.data.entity.Group;
@@ -25,11 +25,18 @@ public class ListController {
     @Autowired
     private GroupDAOImpl groupDataAccessor;
 
+    @Autowired
+    private WebNoteMessageSender webNoteMessageSender;
+
+
+
 
     @RequestMapping(value = "/loadAll", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
         method = RequestMethod.GET)
     @ResponseBody
     public ListDto loadAllOperation() {
+        webNoteMessageSender.send(new Note("my_note", "some text", new Date()));
+
         List<Note> notesData = noteDataAccessor.getAll();
         List<Group> groupsData = groupDataAccessor.getAll();
 
