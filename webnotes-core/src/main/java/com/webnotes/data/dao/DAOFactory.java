@@ -38,6 +38,14 @@ public class DAOFactory {
         }
     }
 
+    public LogDAOImpl createLogDAO() {
+        if (config) {
+            return new LogDAOImpl(new HibernateAdapter());
+        } else {
+            return new LogDAOImpl(new EntityPersistenceAdapter());
+        }
+    }
+
     public void closeDB() {
         if (config) {
             HibernateAdapter.closeDB();

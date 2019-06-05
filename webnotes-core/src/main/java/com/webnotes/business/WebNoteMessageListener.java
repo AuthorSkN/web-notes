@@ -1,5 +1,6 @@
 package com.webnotes.business;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.jms.*;
@@ -7,6 +8,10 @@ import java.util.Map;
 
 @Service
 public class WebNoteMessageListener implements MessageListener {
+
+    @Autowired
+    private WebNoteEmailSender emailSender;
+
     public void onMessage(Message message) {
         Map map = null;
         try {
@@ -25,6 +30,7 @@ public class WebNoteMessageListener implements MessageListener {
 
     private void logNote(Map note, String operation){
         System.out.println(operation + " note" + note.get("id"));
+        emailSender.sendEmail(operation + " note" + note.get("id"));
     }
 
     private void logGroup(Map group, String operation){
