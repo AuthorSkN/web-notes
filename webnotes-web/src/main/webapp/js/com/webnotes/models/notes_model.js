@@ -60,7 +60,7 @@ class NotesModel {
         if (noteDto.parentKey === -1 ) {
             this.notes[noteDto.key] = new Note(noteDto.key, noteDto.name, null);
         } else {
-        	this.groups[noteDto.parentKey].add(new Note(noteDto.key, noteDto.name, noteDto.parentKey));
+        	this.groups[Number(noteDto.parentKey)].add(new Note(noteDto.key, noteDto.name, noteDto.parentKey));
 		}
 	}
 

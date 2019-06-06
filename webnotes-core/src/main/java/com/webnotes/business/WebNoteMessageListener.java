@@ -39,22 +39,21 @@ public class WebNoteMessageListener implements MessageListener {
     private void logNote(Map note, String operation){
         String logText = "'" + note.get("id") + " " + note.get("name") + " " +
                 note.get("parent") + " " + note.get("text") + "'";
-        //emailSender.sendEmail(operation + " note" + note.get("id"));
-        System.out.println("Log:" + logText);
+        System.out.println("Log:" + operation + " " + logText);
         loggingDataAccessor.add(new Log("note", operation, logText));
-
+        emailSender.sendEmail(operation + " note" + note.get("id"));
     }
 
     private void logGroup(Map group, String operation){
         String logText = "'" + group.get("id") + " " + group.get("name") + "'";
-        System.out.println("Log:" + logText);
+        System.out.println("Log:" + operation + " " + logText);
         loggingDataAccessor.add(new Log("group", operation, logText));
     }
 
     private void logAction(Map action, String operation){
         String logText = "'" + action.get("id") + " " + action.get("text") + " " +
                 action.get("passed") + "'";
-        System.out.println("Log:" + logText);
+        System.out.println("Log:" + operation + " " + logText);
         loggingDataAccessor.add(new Log("action", operation, logText));
     }
 }

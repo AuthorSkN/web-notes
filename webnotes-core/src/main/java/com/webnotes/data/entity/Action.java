@@ -4,7 +4,7 @@ package com.webnotes.data.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="action")
+@Table(name="new_schema.action")
 public class Action implements DataEntity{
 
     private static final int DEFAULT_ID = 0;

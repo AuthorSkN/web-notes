@@ -87,15 +87,15 @@ public class BusinessLayerConfig {
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-        mailSender.setProtocol("smtp");
-        mailSender.setUsername("author.skn@gmail.com");
-        mailSender.setPassword("xxxxxx");
+        mailSender.setPort(465);
+        //mailSender.setProtocol("smtp");
+        mailSender.setUsername("tt297268@gmail.com");
+        mailSender.setPassword("147yuj35");
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.transport.protocol", "smtps");
+        props.put("mail.smtps.auth", "true");
+        //props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.debug", "true");
 
         return mailSender;

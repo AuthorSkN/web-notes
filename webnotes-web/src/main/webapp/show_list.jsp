@@ -23,8 +23,8 @@
 <%@ include file="./patterns/list_modal_wins.html" %>
 
 <script>
-    let key = "<c:out value="${param['key']}"/>";
-    let listController = new ListController(false);
+    let key = "<c:out value="${param['keys']}"/>";
+    let listController = new ListController(true);
     if ((key === "") || (Number(key) === -1)) {
         listController.loadFullList();
     } else {

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="folder")
+@Table(name="new_schema.group")
 public class Group implements DataEntity{
 
     private static final int DEFAULT_ID = 0;

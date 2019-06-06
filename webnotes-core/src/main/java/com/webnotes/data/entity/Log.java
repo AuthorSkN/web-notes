@@ -3,7 +3,7 @@ package com.webnotes.data.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="log")
+@Table(name="new_schema.log")
 public class Log implements DataEntity{
 
     private static final int DEFAULT_ID = 0;
