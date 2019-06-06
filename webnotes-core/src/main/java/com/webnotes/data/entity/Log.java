@@ -6,6 +6,8 @@ import javax.persistence.*;
 @Table(name="log")
 public class Log implements DataEntity{
 
+    private static final int DEFAULT_ID = 0;
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id_log")
@@ -16,6 +18,15 @@ public class Log implements DataEntity{
     private String text;
     @Column(name="operation")
     private String operation;
+
+    public Log(){}
+
+    public Log(String type, String operation, String text) {
+        this.id = DEFAULT_ID;
+        this.type = type;
+        this.operation = operation;
+        this.text = text;
+    }
 
     @Override
     public Integer getId() {

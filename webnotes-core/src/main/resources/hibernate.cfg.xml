@@ -17,6 +17,7 @@
         <mapping class="com.webnotes.data.entity.Group"/>
         <mapping class="com.webnotes.data.entity.Note"/>
         <mapping class="com.webnotes.data.entity.Action"/>
+        <mapping class="com.webnotes.data.entity.Log"/>
 
 
     </session-factory>

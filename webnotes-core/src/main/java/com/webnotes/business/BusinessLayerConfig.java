@@ -7,15 +7,17 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.Properties;
 
+
+@Lazy
 @Configuration
 @ComponentScan(basePackageClasses = GlobalSearchOperationImpl.class)
 public class BusinessLayerConfig {
@@ -25,6 +27,9 @@ public class BusinessLayerConfig {
 
     @Autowired
     private WebNoteMessageConverter messageConverter;
+
+    @Autowired
+    private WebNoteEmailSender emailSender;
 
     private DAOFactory daoFactory = new DAOFactory(DAOFactory.HIBERNATE_ADAPTER);
 
@@ -44,6 +49,12 @@ public class BusinessLayerConfig {
     @SessionScope
     public ActionDAOImpl getActionDataAccessor() {
         return daoFactory.createActionDAO();
+    }
+
+    @Bean
+    @SessionScope
+    public LogDAOImpl getLogDataAccessor() {
+        return daoFactory.createLogDAO();
     }
 
     //----------------------JMS
@@ -79,7 +90,7 @@ public class BusinessLayerConfig {
         mailSender.setPort(587);
         mailSender.setProtocol("smtp");
         mailSender.setUsername("author.skn@gmail.com");
-        mailSender.setPassword("%tPovdis61");
+        mailSender.setPassword("xxxxxx");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

@@ -2,8 +2,10 @@ package com.webnotes.controllers;
 
 import com.webnotes.business.WebNoteMessageSender;
 import com.webnotes.data.dao.GroupDAOImpl;
+import com.webnotes.data.dao.LogDAOImpl;
 import com.webnotes.data.dao.NoteDAOImpl;
 import com.webnotes.data.entity.Group;
+import com.webnotes.data.entity.Log;
 import com.webnotes.data.entity.Note;
 import com.webnotes.dto.GroupDto;
 import com.webnotes.dto.ListDto;
@@ -27,6 +29,10 @@ public class ListController {
 
     @Autowired
     private WebNoteMessageSender webNoteMessageSender;
+
+    @Autowired
+    private LogDAOImpl loggingDataAccessor;
+
 
 
     @RequestMapping(value = "/loadAll", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
